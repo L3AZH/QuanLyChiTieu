@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_home"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.quanlychitieu.ui.Home.fragment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/viFragment"
+        android:name="com.example.quanlychitieu.ui.Home.fragment.ViFragment"
+        android:label="fragment_vi"
+        tools:layout="@layout/fragment_vi" />
+    <fragment
+        android:id="@+id/thongKeFragment"
+        android:name="com.example.quanlychitieu.ui.Home.fragment.ThongKeFragment"
+        android:label="ThongKeFragment" />
+</navigation>

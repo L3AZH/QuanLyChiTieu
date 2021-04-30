@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">QuanLyChiTieu</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="forget_account">Forget account ?</string>
+    <string name="not_have_account_register">Not have Account? Register</string>
+    <string name="example_gmail_com">Example@gmail.com</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="applogo">applogo</string>
+</resources>
