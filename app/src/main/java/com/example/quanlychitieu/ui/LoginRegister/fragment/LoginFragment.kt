@@ -19,6 +19,7 @@ import com.example.quanlychitieu.databinding.FragmentLoginBinding
 import com.example.quanlychitieu.ui.Home.HomeActivity
 import com.example.quanlychitieu.ui.LoginRegister.LoginAndRegisterActivity
 import com.example.quanlychitieu.ui.LoginRegister.LoginRegisterViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.klinker.android.link_builder.Link
 import com.klinker.android.link_builder.applyLinks
 import kotlinx.coroutines.*
@@ -58,26 +59,46 @@ class LoginFragment : Fragment() {
     }
     fun setOnclickLogin(){
         binding.loginBtn.setOnClickListener {
-            val job:Deferred<String> = CoroutineScope(Dispatchers.Default).async {
-                val result = viewModel.loginAction(LoginRequest(
-                    binding.emailInputEditText.text.toString()
-                    ,binding.passwordEditText.text.toString())).await()
-                result
-            }
-            runBlocking {
-                val resultString = job.await();
-                val listStringResult = resultString.split("-")
-                if(listStringResult[0].equals("200")){
-//                    val sharePreference =
-//                        activity?.getSharedPreferences("com.example.quanlychitieu", Context.MODE_PRIVATE)
-//                    sharePreference?.edit()?.putString("token",listStringResult[2])
-                    val gotoHomeActivity = Intent(context,HomeActivity::class.java)
-                    startActivity(gotoHomeActivity)
-                }
-                else{
-                    Toast.makeText(context, listStringResult[1], Toast.LENGTH_SHORT).show()
+            if (checkEmptyInputField()){
+                CoroutineScope(Dispatchers.Default).launch {
+                    val resultString = viewModel.loginAction(LoginRequest(
+                        binding.emailInputEditText.text.toString()
+                        ,binding.passwordEditText.text.toString())).await()
+                    if(resultString[0].equals("200")){
+                        val sharePreference =
+                            requireActivity().getSharedPreferences("com.example.quanlychitieu", Context.MODE_PRIVATE)
+                        Log.i("token get", "setOnclickLogin: "+resultString[1])
+                        sharePreference.edit().putString("accountToken","Bearer ${resultString[1].trim()}").apply()
+                        val gotoHomeActivity = Intent(context,HomeActivity::class.java)
+                        startActivity(gotoHomeActivity)
+                    }
+                    else{
+                        Snackbar.make(binding.root,resultString[1],Snackbar.LENGTH_LONG).show()
+                    }
                 }
             }
         }
+    }
+
+    //validation
+    fun checkEmptyInputField():Boolean{
+        var flag = true
+        if(binding.emailInputEditText.text.toString().trim().isEmpty()) {
+            binding.emailTextInputLayout.error = "Email is empty"
+            flag = false
+        }
+        else{
+            binding.emailTextInputLayout.error = ""
+            flag = true
+        }
+        if(binding.passwordEditText.text.toString().trim().isEmpty()){
+            binding.PasswordTextInputLayout.error = "password is empty"
+            flag = false
+        }
+        else{
+            binding.PasswordTextInputLayout.error = ""
+            flag = true
+        }
+        return flag
     }
 }

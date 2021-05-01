@@ -84,7 +84,7 @@ data class InfoCurrentUserAPIGetInfoCurrentUser(
     val joindate: String
 )
 data class DataGetInfoCurrentUserResponseSuccess(
-    @SerializedName("showInfo")
+    @SerializedName("infoShow")
     val infoShow : InfoCurrentUserAPIGetInfoCurrentUser
 )
 data class GetInfoCurrentUserResponseSuccess(
@@ -95,3 +95,6 @@ data class GetInfoCurrentUserResponseSuccess(
     @SerializedName("flag")
     val flag: Boolean
 )
+
+// get user infor response
+

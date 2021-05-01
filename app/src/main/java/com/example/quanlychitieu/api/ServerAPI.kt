@@ -7,13 +7,16 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface ServerAPI {
+    /*
+    * Lop "Repository" se lay ra su dung thong qua Lop "RetrofitInstance"
+    * */
     @POST("auth/login")
-    suspend fun login(@Body account:LoginRequest):Response<LoginResponseSuccess>
+    suspend fun login(@Body account: LoginRequest): Response<LoginResponseSuccess>
+
     @POST("auth/register")
-    suspend fun  register(@Body createAcc:RegisterRequest):Response<RegisterResponseSuccess>
+    suspend fun register(@Body createAcc: RegisterRequest): Response<RegisterResponseSuccess>
+
     @GET("account/me")
-    suspend fun getInfoAccount(
-        @Header("Authorization")
-        token:String
-    ):Response<GetInfoCurrentUserResponseSuccess>
+    suspend fun getInfoAccount(@Header("Authorization") token: String): Response<GetInfoCurrentUserResponseSuccess>
+
 }

@@ -14,6 +14,7 @@ import com.example.quanlychitieu.api.RegisterRequest
 import com.example.quanlychitieu.databinding.FragmentRegisterBinding
 import com.example.quanlychitieu.ui.LoginRegister.LoginAndRegisterActivity
 import com.example.quanlychitieu.ui.LoginRegister.LoginRegisterViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.klinker.android.link_builder.Link
 import com.klinker.android.link_builder.applyLinks
 import kotlinx.coroutines.*
@@ -51,17 +52,54 @@ class RegisterFragment : Fragment() {
     }
     fun setOnclickRegisterBtn(){
         binding.registerBtn.setOnClickListener {
-            val job:Deferred<String> = CoroutineScope(Dispatchers.Default).async {
-                val result = viewModel.registerAction(RegisterRequest(
-                    binding.emailRegisterTextEdit.text.toString(),
-                    binding.passwordRegisterEditText.text.toString(),
-                    binding.userRegisterEditText.text.toString(),
-                    binding.phoneRegisterEditText.text.toString())).await()
-                result
-            }
-            runBlocking {
-                Toast.makeText(context, job.await(), Toast.LENGTH_SHORT).show()
+            if (checkEmptyInputField()){
+                CoroutineScope(Dispatchers.Default).launch {
+                    val result = viewModel.registerAction(RegisterRequest(
+                        binding.emailRegisterTextEdit.text.toString(),
+                        binding.passwordRegisterEditText.text.toString(),
+                        binding.userRegisterEditText.text.toString(),
+                        binding.phoneRegisterEditText.text.toString())).await()
+                    Snackbar.make(binding.root,result,Snackbar.LENGTH_LONG).show()
+                }
             }
         }
+    }
+
+    //validation
+    fun checkEmptyInputField():Boolean{
+        var flag = true
+        if(binding.emailRegisterTextEdit.text.toString().trim().isEmpty()) {
+            binding.EmailInputLayout.error = "Email is empty"
+            flag = false
+        }
+        else{
+            binding.EmailInputLayout.error = ""
+            flag = true
+        }
+        if(binding.passwordRegisterEditText.text.toString().trim().isEmpty()){
+            binding.PasswordInputLayout.error = "password is empty"
+            flag = false
+        }
+        else{
+            binding.PasswordInputLayout.error = ""
+            flag = true
+        }
+        if(binding.userRegisterEditText.text.toString().trim().isEmpty()){
+            binding.UserInputLayout.error = "password is empty"
+            flag = false
+        }
+        else{
+            binding.UserInputLayout.error = ""
+            flag = true
+        }
+        if(binding.phoneRegisterEditText.text.toString().trim().isEmpty()){
+            binding.PhoneInputLayout.error = "password is empty"
+            flag = false
+        }
+        else{
+            binding.PhoneInputLayout.error = ""
+            flag = true
+        }
+        return flag
     }
 }

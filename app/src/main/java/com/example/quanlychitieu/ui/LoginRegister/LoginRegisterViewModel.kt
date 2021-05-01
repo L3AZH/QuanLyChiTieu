@@ -8,17 +8,28 @@ import com.example.quanlychitieu.repository.Repository
 import com.example.quanlychitieu.api.RegisterResponseFail
 import com.google.gson.Gson
 import kotlinx.coroutines.*
+import java.util.*
 
 
 class LoginRegisterViewModel(val repository: Repository) : ViewModel() {
 
 
-    suspend fun loginAction(account: LoginRequest):Deferred<String> = CoroutineScope(Dispatchers.Default).async{
+    suspend fun loginAction(account: LoginRequest):Deferred<Array<String>> = CoroutineScope(Dispatchers.Default).async{
         var response = repository.login(account)
         if (response.isSuccessful()){
             val body = response.body()!!
-            val result = body.code.toString()+"-"+body.data.message+" - "+body.data.token
-            result
+            var resultList = arrayOf(body.code.toString(),body.data.token)
+            resultList
+            //lưu ý cái result khi dem di split string
+            /*
+            * ban tuan anh ngu lon da viet nhu sau:
+            * body.code.toString()+"-"+body.data.message+" - "+body.data.token =>
+            * khi tach chuoi (tach theo dau "-")thi token se nhan dc ve string nhu sau "<khoang cach>token"
+            * va dung string token tren de dua vao header thi header se thanh nhu sau:
+            * Bearer:<khoang cach><khoang cach>token
+            * sau do server se tach theo khoang cach => string[0] = Bear
+            * !!!String[1] = "<khoang cach>token" => loi unthorization vi sai token
+            * */
         }
         else{
             val gson = Gson()
@@ -26,7 +37,8 @@ class LoginRegisterViewModel(val repository: Repository) : ViewModel() {
                 response.errorBody()!!.string(),
                 LoginResponseFail::class.java
             )
-            loginResponseFail.code.toString()+"-"+loginResponseFail.data.message
+            var resultList:Array<String> = arrayOf(loginResponseFail.code.toString(),loginResponseFail.data.message)
+            resultList
         }
     }
 
