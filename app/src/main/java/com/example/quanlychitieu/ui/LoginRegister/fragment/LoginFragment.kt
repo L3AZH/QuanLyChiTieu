@@ -1,6 +1,7 @@
 package com.example.quanlychitieu.ui.LoginRegister.fragment
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -19,6 +20,7 @@ import com.example.quanlychitieu.databinding.FragmentLoginBinding
 import com.example.quanlychitieu.ui.Home.HomeActivity
 import com.example.quanlychitieu.ui.LoginRegister.LoginAndRegisterActivity
 import com.example.quanlychitieu.ui.LoginRegister.LoginRegisterViewModel
+import com.example.quanlychitieu.ui.LoginRegister.dialog.LoadingDialog
 import com.google.android.material.snackbar.Snackbar
 import com.klinker.android.link_builder.Link
 import com.klinker.android.link_builder.applyLinks
@@ -61,6 +63,9 @@ class LoginFragment : Fragment() {
         binding.loginBtn.setOnClickListener {
             if (checkEmptyInputField()){
                 CoroutineScope(Dispatchers.Default).launch {
+                    val dialog = LoadingDialog()
+                    dialog.show(requireActivity().supportFragmentManager,"loading dialog")
+                    dialog.isCancelable = false
                     val resultString = viewModel.loginAction(LoginRequest(
                         binding.emailInputEditText.text.toString()
                         ,binding.passwordEditText.text.toString())).await()
@@ -69,11 +74,17 @@ class LoginFragment : Fragment() {
                             requireActivity().getSharedPreferences("com.example.quanlychitieu", Context.MODE_PRIVATE)
                         Log.i("token get", "setOnclickLogin: "+resultString[1])
                         sharePreference.edit().putString("accountToken","Bearer ${resultString[1].trim()}").apply()
+                        dialog.cancelDialog()
                         val gotoHomeActivity = Intent(context,HomeActivity::class.java)
                         startActivity(gotoHomeActivity)
                     }
-                    else{
+                    else if(resultString[0].equals("400")){
+                        dialog.cancelDialog()
                         Snackbar.make(binding.root,resultString[1],Snackbar.LENGTH_LONG).show()
+                    }
+                    else{
+                        dialog.cancelDialog()
+                        Snackbar.make(binding.root,resultString[0],Snackbar.LENGTH_LONG).show()
                     }
                 }
             }

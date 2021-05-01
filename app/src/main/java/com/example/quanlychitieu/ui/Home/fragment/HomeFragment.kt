@@ -50,10 +50,10 @@ class HomeFragment : Fragment() {
         val token = sharePreference.getString("accountToken", "null")
         viewModel.infoUser.observe(viewLifecycleOwner, Observer {
             CoroutineScope(Dispatchers.Main).launch {
-                binding.emailAccountTextView.text = viewModel.infoUser.value?.data?.infoShow?.email
+                binding.emailAccountTextView.text = "Email: "+viewModel.infoUser.value?.data?.infoShow?.email
                 binding.usernameAccountTextView.text = "Xin chao: "+viewModel.infoUser.value?.data?.infoShow?.username
-                binding.phoneAccountTextView.text = viewModel.infoUser.value?.data?.infoShow?.phone
-                binding.joindateAccountTextView.text = viewModel.infoUser.value?.data?.infoShow?.joindate
+                binding.phoneAccountTextView.text = "SDT: "+viewModel.infoUser.value?.data?.infoShow?.phone
+                binding.joindateAccountTextView.text = "Ngay tao: "+viewModel.infoUser.value?.data?.infoShow?.joindate
             }
         })
         viewModel.setInfoUser(token!!)

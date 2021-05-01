@@ -25,7 +25,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="24dp"
-                    app:cardBackgroundColor="@android:color/holo_orange_dark"
+                    app:cardBackgroundColor="@color/humanskin"
                     app:cardCornerRadius="10dp">
 
                     <LinearLayout
@@ -46,12 +46,13 @@
                                 android:layout_margin="5dp"
                                 android:layout_weight="1"
                                 android:text="TextView"
-                                android:textSize="18sp" />
+                                android:textSize="22sp" />
 
                             <ImageView
                                 android:id="@+id/infoImgViewBtn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
                                 app:srcCompat="@drawable/ic_baseline_info_32" />
 
                         </LinearLayout>
@@ -60,49 +61,55 @@
                             android:id="@+id/emailAccountTextView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_margin="5dp"
+                            android:layout_margin="10dp"
                             android:text="@string/hello_blank_fragment"
-                            android:textSize="14sp"
+                            android:textSize="18sp"
                             android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/phoneAccountTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
+                            android:layout_margin="10dp"
                             android:text="TextView"
-                            android:textSize="14sp"
+                            android:textSize="18sp"
                             android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/joindateAccountTextView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
+                            android:layout_margin="10dp"
                             android:text="TextView"
+                            android:textSize="18sp"
                             android:visibility="gone" />
 
                         <LinearLayout
                             android:id="@+id/linearLayoutBtnInfo"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:layout_margin="5dp"
                             android:orientation="horizontal"
                             android:layout_gravity="end"
                             android:visibility="gone">
 
-                            <Button
+                            <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/homeEditInfoBtn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
-                                android:text="Edit" />
+                                android:text="Edit"
+                                android:textColor="@color/humanskin"
+                                android:background="@drawable/custom_shape_btn_2"/>
 
-                            <Button
+                            <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/homeLogoutBtn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
-                                android:text="Logout" />
+                                android:text="Logout"
+                                android:textColor="@color/humanskin"
+                                android:background="@drawable/custom_shape_btn_2"/>
                         </LinearLayout>
 
                     </LinearLayout>

@@ -14,6 +14,7 @@ import com.example.quanlychitieu.api.RegisterRequest
 import com.example.quanlychitieu.databinding.FragmentRegisterBinding
 import com.example.quanlychitieu.ui.LoginRegister.LoginAndRegisterActivity
 import com.example.quanlychitieu.ui.LoginRegister.LoginRegisterViewModel
+import com.example.quanlychitieu.ui.LoginRegister.dialog.LoadingDialog
 import com.google.android.material.snackbar.Snackbar
 import com.klinker.android.link_builder.Link
 import com.klinker.android.link_builder.applyLinks
@@ -54,11 +55,15 @@ class RegisterFragment : Fragment() {
         binding.registerBtn.setOnClickListener {
             if (checkEmptyInputField()){
                 CoroutineScope(Dispatchers.Default).launch {
+                    val dialog = LoadingDialog()
+                    dialog.show(requireActivity().supportFragmentManager,"loading dialog")
+                    dialog.isCancelable = false
                     val result = viewModel.registerAction(RegisterRequest(
                         binding.emailRegisterTextEdit.text.toString(),
                         binding.passwordRegisterEditText.text.toString(),
                         binding.userRegisterEditText.text.toString(),
                         binding.phoneRegisterEditText.text.toString())).await()
+                    dialog.cancelDialog()
                     Snackbar.make(binding.root,result,Snackbar.LENGTH_LONG).show()
                 }
             }
