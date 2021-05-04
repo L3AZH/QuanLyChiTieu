@@ -50,6 +50,12 @@ class ViFragment : Fragment() {
         viAdapter.setOnItemClickListener {
             setOnItemClick(it)
         }
+        viAdapter.setOnItemEditBtnClickListener {
+            setOnEditItemClick(it)
+        }
+        viAdapter.setOnItemDeleteBtnClickListener {
+            setOnDeleteItemClick(it)
+        }
         binding.listWalletRecycleView.layoutManager = LinearLayoutManager(activity)
         binding.listWalletRecycleView.adapter = viAdapter
         viewModel.listWallet.observe(viewLifecycleOwner, Observer { listWallet ->
@@ -62,6 +68,22 @@ class ViFragment : Fragment() {
     }
     fun setOnItemClick(walletInfo: WalletInfo){
         Toast.makeText(context, "itemclick"+walletInfo.idWallet, Toast.LENGTH_SHORT).show()
+    }
+    fun setOnDeleteItemClick(walletInfo: WalletInfo){
+        val sharePreference =
+            requireActivity().getSharedPreferences("com.example.quanlychitieu", Context.MODE_PRIVATE)
+        val token = sharePreference.getString("accountToken", "null")
+        CoroutineScope(Dispatchers.Default).launch {
+            val loadingDialog = LoadingDialog()
+            loadingDialog.show(requireActivity().supportFragmentManager,"loading dialog")
+            val result = viewModel.deleteWallet(token!!,walletInfo.type).await()
+            loadingDialog.cancelDialog()
+            Snackbar.make(binding.root,result[1],Snackbar.LENGTH_LONG).show()
+            viewModel.setListWallet(token!!)
+        }
+    }
+    fun setOnEditItemClick(walletInfo: WalletInfo){
+        Toast.makeText(context, "editItemclick"+walletInfo.idWallet, Toast.LENGTH_SHORT).show()
     }
     fun setOnclickAddWalletFloatingBtn(){
         CoroutineScope(Dispatchers.Default).launch {

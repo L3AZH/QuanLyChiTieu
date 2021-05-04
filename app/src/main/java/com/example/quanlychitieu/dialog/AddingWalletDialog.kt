@@ -70,13 +70,12 @@ class AddingWalletDialog(val listWalletType: List<WalletType>) : DialogFragment(
                         walletType.idWalletType.toString()
                     )
                 ).await()
+                loadingDialog.cancelDialog()
                 if(result[0].equals("200")){
                     viewModel.setListWallet(token!!)
-                    loadingDialog.cancelDialog()
                     dialog?.cancel()
                 }
                 else{
-                    loadingDialog.cancelDialog()
                     Snackbar.make(binding.root,result[1],Snackbar.LENGTH_LONG).show()
                 }
             }

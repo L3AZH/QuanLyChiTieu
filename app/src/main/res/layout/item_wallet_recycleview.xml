@@ -19,29 +19,58 @@
                 android:id="@+id/idWalletTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
+                android:layout_margin="10dp"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/accountEmailTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
+                android:layout_margin="10dp"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/amountWalletTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
+                android:layout_margin="10dp"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/typeWalletTextView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
+                android:layout_margin="10dp"
                 android:text="TextView" />
+
+            <LinearLayout
+                android:id="@+id/btnLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/editWalletBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/custom_shape_btn_1"
+                    android:text="Edit"
+                    android:textColor="@color/white"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/deleteWalletBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/custom_shape_btn_1"
+                    android:text="Delete"
+                    android:textColor="@color/white" />
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

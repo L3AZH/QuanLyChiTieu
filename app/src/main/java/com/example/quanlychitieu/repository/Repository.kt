@@ -21,6 +21,7 @@ class Repository(val dbDAO: DbDAO) {
     suspend fun getListWalletUser(token: String) = RetrofitInstance.api.getListWalletUser(token)
     suspend fun getListWalletType(token: String) = RetrofitInstance.api.getListWalletType(token)
     suspend fun createNewWallet(token: String,walletNew:CreateWalletRequest) = RetrofitInstance.api.createNewWallet(token,walletNew)
+    suspend fun deleteWallet(token: String,typeWallet:String) = RetrofitInstance.api.deleteWallet(token,typeWallet)
     /**
      * lay data trong db
      */

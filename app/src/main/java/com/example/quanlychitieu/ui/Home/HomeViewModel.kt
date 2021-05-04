@@ -14,6 +14,9 @@ class HomeViewModel(val repository: Repository):ViewModel() {
     var infoUser:MutableLiveData<GetInfoCurrentUserResponseSuccess> = MutableLiveData()
     var listWallet:MutableLiveData<List<WalletInfo>> = MutableLiveData()
 
+    /**
+     * function cho HomeFragment
+     */
 
     fun getInfoUser(token:String):Deferred<GetInfoCurrentUserResponseSuccess?> = CoroutineScope(Dispatchers.Default).async{
         val repsonse = repository.getInfoCurrentUser(token)
@@ -30,6 +33,10 @@ class HomeViewModel(val repository: Repository):ViewModel() {
             infoUser.postValue(getInfoUser(token).await())
         }
     }
+
+    /**
+     * function cho ViFragment
+     */
 
     fun getListWallet(token: String):Deferred<List<WalletInfo>?> = CoroutineScope(Dispatchers.Default).async {
         val response = repository.getListWalletUser(token)
@@ -78,4 +85,27 @@ class HomeViewModel(val repository: Repository):ViewModel() {
             arrayOf(createWalletResponseFail.code.toString(),createWalletResponseFail.data.message)
         }
     }
+
+    fun deleteWallet(token: String,typWallet:String):Deferred<Array<String>> = CoroutineScope(Dispatchers.Default).async {
+        val response = repository.deleteWallet(token,typWallet)
+        if(response.isSuccessful()){
+            val result = response.body()!!
+            arrayOf(result.code.toString(),result.data.message)
+        }
+        else{
+            val gson = Gson()
+            val deleteWalletResponse = gson.fromJson(
+                response.errorBody()!!.string(),
+                DeleteWalletResponse::class.java
+            )
+            arrayOf(deleteWalletResponse.code.toString(),deleteWalletResponse.data.message)
+        }
+    }
+    /**
+     * function cho ThongKeFragment
+     */
+
+    /**
+     * function cho GiaoDichFragment
+     */
 }
