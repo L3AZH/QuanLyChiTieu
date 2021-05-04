@@ -19,4 +19,17 @@ interface ServerAPI {
     @GET("account/me")
     suspend fun getInfoAccount(@Header("Authorization") token: String): Response<GetInfoCurrentUserResponseSuccess>
 
+    @GET("account/wallet/me-all-wallet")
+    suspend fun getListWalletUser(@Header("Authorization") token: String): Response<GetListWalletUserResponseSuccess>
+
+    @GET("wallettype/get-all-wallettype")
+    suspend fun getListWalletType(@Header("Authorization") token: String): Response<GetListWalletTypeResponseSuccess>
+
+    @POST("account/wallet/create-wallet")
+    suspend fun createNewWallet(
+        @Header("Authorization") token: String,
+        @Body newWallet: CreateWalletRequest
+    ): Response<CreateWalletResponseSuccess>
+
+
 }

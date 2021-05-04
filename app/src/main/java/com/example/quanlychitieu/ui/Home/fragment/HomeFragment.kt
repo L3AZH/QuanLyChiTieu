@@ -14,8 +14,8 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.example.quanlychitieu.R
-import com.example.quanlychitieu.api.GetInfoCurrentUserResponseSuccess
 import com.example.quanlychitieu.databinding.FragmentHomeBinding
+import com.example.quanlychitieu.dialog.LoadingDialog
 import com.example.quanlychitieu.ui.Home.HomeActivity
 import com.example.quanlychitieu.ui.Home.HomeViewModel
 import com.example.quanlychitieu.ui.LoginRegister.LoginAndRegisterActivity
@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
         viewModel.infoUser.observe(viewLifecycleOwner, Observer {
             CoroutineScope(Dispatchers.Main).launch {
                 binding.emailAccountTextView.text = "Email: "+viewModel.infoUser.value?.data?.infoShow?.email
-                binding.usernameAccountTextView.text = "Xin chao: "+viewModel.infoUser.value?.data?.infoShow?.username
+                binding.usernameAccountTextView.text = "User name: "+viewModel.infoUser.value?.data?.infoShow?.username
                 binding.phoneAccountTextView.text = "SDT: "+viewModel.infoUser.value?.data?.infoShow?.phone
                 binding.joindateAccountTextView.text = "Ngay tao: "+viewModel.infoUser.value?.data?.infoShow?.joindate
             }
@@ -62,12 +62,14 @@ class HomeFragment : Fragment() {
         binding.infoImgViewBtn.setOnClickListener {
             TransitionManager.beginDelayedTransition(binding.cardViewInfo,AutoTransition())
             if(binding.emailAccountTextView.isVisible){
+                binding.usernameAccountTextView.visibility = View.GONE
                 binding.emailAccountTextView.visibility = View.GONE
                 binding.phoneAccountTextView.visibility = View.GONE
                 binding.joindateAccountTextView.visibility = View.GONE
                 binding.linearLayoutBtnInfo.visibility = View.GONE
             }
             else{
+                binding.usernameAccountTextView.visibility = View.VISIBLE
                 binding.emailAccountTextView.visibility = View.VISIBLE
                 binding.phoneAccountTextView.visibility = View.VISIBLE
                 binding.joindateAccountTextView.visibility = View.VISIBLE

@@ -1,4 +1,4 @@
-package com.example.quanlychitieu.ui.LoginRegister.dialog
+package com.example.quanlychitieu.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog

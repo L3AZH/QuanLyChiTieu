@@ -14,7 +14,7 @@ import com.example.quanlychitieu.api.RegisterRequest
 import com.example.quanlychitieu.databinding.FragmentRegisterBinding
 import com.example.quanlychitieu.ui.LoginRegister.LoginAndRegisterActivity
 import com.example.quanlychitieu.ui.LoginRegister.LoginRegisterViewModel
-import com.example.quanlychitieu.ui.LoginRegister.dialog.LoadingDialog
+import com.example.quanlychitieu.dialog.LoadingDialog
 import com.google.android.material.snackbar.Snackbar
 import com.klinker.android.link_builder.Link
 import com.klinker.android.link_builder.applyLinks

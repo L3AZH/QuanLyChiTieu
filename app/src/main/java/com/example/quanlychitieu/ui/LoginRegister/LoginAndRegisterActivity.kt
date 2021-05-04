@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.quanlychitieu.R
 import com.example.quanlychitieu.databinding.ActivityLoginAndRegisterBinding
+import com.example.quanlychitieu.db.DatabaseInstance
 import com.example.quanlychitieu.repository.Repository
 
 class LoginAndRegisterActivity : AppCompatActivity() {
@@ -16,7 +17,8 @@ class LoginAndRegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_login_and_register)
-        val loginRegisterRepository = Repository()
+        val dao = DatabaseInstance(this).getDbDao()
+        val loginRegisterRepository = Repository(dao)
         val loginRegisterViewModelFactory = LoginRegisterViewModelFactory(loginRegisterRepository)
         loginRegisterViewModel = ViewModelProvider(this,loginRegisterViewModelFactory).get(LoginRegisterViewModel::class.java)
         binding.lifecycleOwner = this
