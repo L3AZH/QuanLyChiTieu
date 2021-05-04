@@ -26,3 +26,9 @@ data class CreateWalletRequest(
     val amount:String,
     val idWalletType:String
 )
+/**
+ * Request body cua update wallet API
+ */
+data class UpdateWalletRequest(
+    val amount:String,
+)

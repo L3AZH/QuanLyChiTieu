@@ -101,6 +101,22 @@ class HomeViewModel(val repository: Repository):ViewModel() {
             arrayOf(deleteWalletResponse.code.toString(),deleteWalletResponse.data.message)
         }
     }
+
+    fun updateWallet(token:String,typeWallet:String,amount:UpdateWalletRequest):Deferred<Array<String>> = CoroutineScope(Dispatchers.Default).async {
+        val response = repository.updateWallet(token,typeWallet,amount)
+        if(response.isSuccessful()){
+            val result = response.body()!!
+            arrayOf(result.code.toString(),result.data.message)
+        }
+        else{
+            val gson = Gson()
+            val updateWalletResponse = gson.fromJson(
+                response.errorBody()!!.string(),
+                UpdateWalletResponse::class.java
+            )
+            arrayOf(updateWalletResponse.code.toString(),updateWalletResponse.data.message)
+        }
+    }
     /**
      * function cho ThongKeFragment
      */

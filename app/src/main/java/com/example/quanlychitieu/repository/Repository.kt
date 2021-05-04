@@ -1,9 +1,6 @@
 package com.example.quanlychitieu.repository
 
-import com.example.quanlychitieu.api.CreateWalletRequest
-import com.example.quanlychitieu.api.LoginRequest
-import com.example.quanlychitieu.api.RegisterRequest
-import com.example.quanlychitieu.api.RetrofitInstance
+import com.example.quanlychitieu.api.*
 import com.example.quanlychitieu.db.DbDAO
 import com.example.quanlychitieu.db.modeldb.WalletType
 import retrofit2.Response
@@ -22,6 +19,7 @@ class Repository(val dbDAO: DbDAO) {
     suspend fun getListWalletType(token: String) = RetrofitInstance.api.getListWalletType(token)
     suspend fun createNewWallet(token: String,walletNew:CreateWalletRequest) = RetrofitInstance.api.createNewWallet(token,walletNew)
     suspend fun deleteWallet(token: String,typeWallet:String) = RetrofitInstance.api.deleteWallet(token,typeWallet)
+    suspend fun updateWallet(token: String,typeWallet:String,amount:UpdateWalletRequest) = RetrofitInstance.api.updateWallet(token,typeWallet,amount)
     /**
      * lay data trong db
      */

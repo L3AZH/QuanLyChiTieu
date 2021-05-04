@@ -38,14 +38,12 @@ class HomeActivity : AppCompatActivity() {
         binding.bottomNavigationView.setupWithNavController(navHostFragment!!.findNavController())
     }
 
+
     fun loadingDataFromServerToDatabase(){
         val sharePreference = getSharedPreferences("com.example.quanlychitieu", Context.MODE_PRIVATE)
         val token = sharePreference.getString("accountToken", "null")
         CoroutineScope(Dispatchers.Default).launch {
-            val loadingDialog = LoadingDialog()
-            loadingDialog.show(supportFragmentManager,"loading dialog")
             val result = homeViewModel.loadingListWalletTypeFromSvToDb(token!!).await()
-            loadingDialog.cancelDialog()
             if(result){
                 Snackbar.make(binding.root, "load data success", Snackbar.LENGTH_LONG).show()
             }

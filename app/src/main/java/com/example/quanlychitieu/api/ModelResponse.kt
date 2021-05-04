@@ -231,3 +231,18 @@ data class DeleteWalletResponse(
     @SerializedName("flag")
     val flag: Boolean
 )
+/**
+ * Model Response cua API update wallet
+ */
+data class DataUpdateWalletResponse(
+    @SerializedName("message")
+    val message: String
+)
+data class UpdateWalletResponse(
+    @SerializedName("code")
+    val code:Int,
+    @SerializedName("data")
+    val data:DataUpdateWalletResponse,
+    @SerializedName("flag")
+    val flag: Boolean
+)

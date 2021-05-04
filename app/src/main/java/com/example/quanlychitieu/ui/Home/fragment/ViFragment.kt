@@ -16,6 +16,7 @@ import com.example.quanlychitieu.api.WalletInfo
 import com.example.quanlychitieu.databinding.FragmentViBinding
 import com.example.quanlychitieu.dialog.AddingWalletDialog
 import com.example.quanlychitieu.dialog.LoadingDialog
+import com.example.quanlychitieu.dialog.UpdateWalletDialog
 import com.example.quanlychitieu.ui.Home.HomeActivity
 import com.example.quanlychitieu.ui.Home.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -83,7 +84,9 @@ class ViFragment : Fragment() {
         }
     }
     fun setOnEditItemClick(walletInfo: WalletInfo){
-        Toast.makeText(context, "editItemclick"+walletInfo.idWallet, Toast.LENGTH_SHORT).show()
+        val updateDialog = UpdateWalletDialog(walletInfo)
+        updateDialog.show(requireActivity().supportFragmentManager,"Update Wallet Dialog")
+        updateDialog.isCancelable = false
     }
     fun setOnclickAddWalletFloatingBtn(){
         CoroutineScope(Dispatchers.Default).launch {

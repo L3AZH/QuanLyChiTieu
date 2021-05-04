@@ -31,7 +31,14 @@ interface ServerAPI {
     @DELETE("account/wallet/delete-wallet/{typeWallet}")
     suspend fun deleteWallet(
         @Header("Authorization") token: String,
-        @Path("typeWallet") typeWallet:String
-    ):Response<DeleteWalletResponse>
+        @Path("typeWallet") typeWallet: String
+    ): Response<DeleteWalletResponse>
+
+    @PUT("account/wallet/update-wallet/{typeWallet} ")
+    suspend fun updateWallet(
+        @Header("Authorization") token: String,
+        @Path("typeWallet") typeWallet: String,
+        @Body amount: UpdateWalletRequest
+    ): Response<UpdateWalletResponse>
 
 }
