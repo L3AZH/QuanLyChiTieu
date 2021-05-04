@@ -8,11 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.quanlychitieu.R
 import com.example.quanlychitieu.adapter.ViAdapter
 import com.example.quanlychitieu.api.WalletInfo
+import com.example.quanlychitieu.databinding.ChiTieuRecyclerviewBinding
 import com.example.quanlychitieu.databinding.FragmentViBinding
 import com.example.quanlychitieu.dialog.AddingWalletDialog
 import com.example.quanlychitieu.dialog.LoadingDialog
@@ -68,7 +71,14 @@ class ViFragment : Fragment() {
         viewModel.setListWallet(token!!)
     }
     fun setOnItemClick(walletInfo: WalletInfo){
-        Toast.makeText(context, "itemclick"+walletInfo.idWallet, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "itemclick "+walletInfo.idWallet, Toast.LENGTH_SHORT).show()
+        val bundle = Bundle().apply {
+            putSerializable("idWallet",walletInfo.idWallet)
+        }
+        findNavController().navigate(
+            R.id.action_viFragment_to_chiTieuFragment,
+            bundle
+        )
     }
     fun setOnDeleteItemClick(walletInfo: WalletInfo){
         val sharePreference =

@@ -1,5 +1,6 @@
 package com.example.quanlychitieu.api
 
+import com.example.quanlychitieu.db.modeldb.Transaction
 import com.example.quanlychitieu.db.modeldb.WalletType
 import com.google.gson.annotations.SerializedName
 import java.util.*
@@ -216,6 +217,50 @@ data class CreateWalletResponseFail(
     @SerializedName("flag")
     val flag: Boolean
 )
+
+data class GetAllTransactionSuccess(
+    @SerializedName("code")
+    val code:Int,
+    @SerializedName("data")
+    val data:DataGetAllTransactionSuccess,
+    @SerializedName("flag")
+    val flag: Boolean
+)
+
+data class DataGetAllTransactionSuccess(
+    @SerializedName("result")
+    val result:List<Transaction>
+)
+
+data class GetAllTransactionFail(
+    @SerializedName("code")
+    val code:Int,
+    @SerializedName("data")
+    val data:DataGetAllTransactionFail,
+    @SerializedName("flag")
+    val flag: Boolean
+)
+
+data class DataGetAllTransactionFail(
+    @SerializedName("message")
+    val message:String
+)
+
+data class TransInfoResponse(
+    @SerializedName("idTransaction")
+    val idTransaction:Int,
+    @SerializedName("wallet_idWallet")
+    val wallet_idWallet:Int,
+    @SerializedName("type")
+    val type:String,
+    @SerializedName("amount")
+    val amount:Double,
+    @SerializedName("note")
+    val note:String,
+    @SerializedName("date")
+    val date: Date
+)
+
 /**
  * Model Response cua API delete wallet
  */

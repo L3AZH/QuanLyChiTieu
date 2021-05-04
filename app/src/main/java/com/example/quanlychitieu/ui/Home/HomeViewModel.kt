@@ -14,9 +14,6 @@ class HomeViewModel(val repository: Repository):ViewModel() {
     var infoUser:MutableLiveData<GetInfoCurrentUserResponseSuccess> = MutableLiveData()
     var listWallet:MutableLiveData<List<WalletInfo>> = MutableLiveData()
 
-    /**
-     * function cho HomeFragment
-     */
 
     fun getInfoUser(token:String):Deferred<GetInfoCurrentUserResponseSuccess?> = CoroutineScope(Dispatchers.Default).async{
         val repsonse = repository.getInfoCurrentUser(token)
@@ -124,4 +121,12 @@ class HomeViewModel(val repository: Repository):ViewModel() {
     /**
      * function cho GiaoDichFragment
      */
+
+    fun getAllTransaction(token:String,type:String) =  viewModelScope.launch {
+        val response= repository.getAllTransactions(token,type)
+        if(response.isSuccessful()){
+            allTrans.postValue(response.body()!!.data.result)
+        }
+        else null
+    }
 }

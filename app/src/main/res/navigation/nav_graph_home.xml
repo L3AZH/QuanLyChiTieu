@@ -14,9 +14,19 @@
         android:id="@+id/viFragment"
         android:name="com.example.quanlychitieu.ui.Home.fragment.ViFragment"
         android:label="fragment_vi"
-        tools:layout="@layout/fragment_vi" />
+        tools:layout="@layout/fragment_vi" >
+        <action
+            android:id="@+id/action_viFragment_to_chiTieuFragment"
+            app:destination="@id/chiTieuFragment" />
+    </fragment>
     <fragment
         android:id="@+id/thongKeFragment"
         android:name="com.example.quanlychitieu.ui.Home.fragment.ThongKeFragment"
         android:label="ThongKeFragment" />
+    <fragment
+        android:id="@+id/chiTieuFragment"
+        android:name="com.example.quanlychitieu.ui.Home.fragment.ChiTieuFragment"
+        android:label="ChiTieuFragment" >
+        <argument android:name="idWallet" />
+    </fragment>
 </navigation>
