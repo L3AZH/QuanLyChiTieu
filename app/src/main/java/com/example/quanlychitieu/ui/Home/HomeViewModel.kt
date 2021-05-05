@@ -3,6 +3,7 @@ package com.example.quanlychitieu.ui.Home
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.quanlychitieu.api.*
 import com.example.quanlychitieu.db.modeldb.WalletType
 import com.example.quanlychitieu.repository.Repository
@@ -13,6 +14,7 @@ class HomeViewModel(val repository: Repository):ViewModel() {
 
     var infoUser:MutableLiveData<GetInfoCurrentUserResponseSuccess> = MutableLiveData()
     var listWallet:MutableLiveData<List<WalletInfo>> = MutableLiveData()
+    var allTrans: MutableLiveData<List<TransInfoResponse>> = MutableLiveData()
 
 
     fun getInfoUser(token:String):Deferred<GetInfoCurrentUserResponseSuccess?> = CoroutineScope(Dispatchers.Default).async{

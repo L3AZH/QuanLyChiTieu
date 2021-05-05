@@ -229,7 +229,7 @@ data class GetAllTransactionSuccess(
 
 data class DataGetAllTransactionSuccess(
     @SerializedName("result")
-    val result:List<Transaction>
+    val result:List<TransInfoResponse>
 )
 
 data class GetAllTransactionFail(
@@ -249,7 +249,7 @@ data class DataGetAllTransactionFail(
 data class TransInfoResponse(
     @SerializedName("idTransaction")
     val idTransaction:Int,
-    @SerializedName("wallet_idWallet")
+    @SerializedName("Wallet_idWallet")
     val wallet_idWallet:Int,
     @SerializedName("type")
     val type:String,

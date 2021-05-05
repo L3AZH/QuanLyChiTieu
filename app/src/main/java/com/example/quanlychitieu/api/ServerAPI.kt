@@ -1,10 +1,7 @@
 package com.example.quanlychitieu.api
 
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ServerAPI {
     /*
@@ -31,10 +28,10 @@ interface ServerAPI {
         @Body newWallet: CreateWalletRequest
     ): Response<CreateWalletResponseSuccess>
 
-    @GET("account/wallet/all-transaction")
+    @GET("account/wallet/transaction/all-transaction/{type}")
     suspend fun getAllTransaction(
         @Header("Authorization") token:String,
-        @Query("type")type:String
+        @Path("type")type:String
     ):Response<GetAllTransactionSuccess>
 
     @DELETE("account/wallet/delete-wallet/{typeWallet}")

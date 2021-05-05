@@ -38,6 +38,9 @@ android {
     repositories {
         maven { url 'https://jitpack.io' }
     }
+    kapt {
+        correctErrorTypes true
+    }
 }
 
 dependencies {

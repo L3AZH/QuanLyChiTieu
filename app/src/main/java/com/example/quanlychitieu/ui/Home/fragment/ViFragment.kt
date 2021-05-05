@@ -75,6 +75,7 @@ class ViFragment : Fragment() {
         val bundle = Bundle().apply {
             putSerializable("idWallet",walletInfo.idWallet)
         }
+        println("ID Ví fragment: "+walletInfo.idWallet)
         findNavController().navigate(
             R.id.action_viFragment_to_chiTieuFragment,
             bundle

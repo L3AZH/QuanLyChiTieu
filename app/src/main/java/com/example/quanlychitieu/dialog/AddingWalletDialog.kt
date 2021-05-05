@@ -44,6 +44,7 @@ class AddingWalletDialog(val listWalletType: List<WalletType>) : DialogFragment(
     fun setUpDataForAutoCompleteText() {
         walletTypeDropDownAdapter = WalletTypeDropDownAdapter(requireContext(), listWalletType)
         binding.walletTypeSpinner.adapter = walletTypeDropDownAdapter
+
     }
 
     fun setOnclickCancelBtn() {

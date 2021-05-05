@@ -1,8 +1,9 @@
 package com.example.quanlychitieu.adapter
 
 import android.view.LayoutInflater
-import android.view.View
+import android.view.SurfaceHolder
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -10,15 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.quanlychitieu.R
 import com.example.quanlychitieu.api.TransInfoResponse
 import com.example.quanlychitieu.databinding.ChiTieuRecyclerviewBinding
-import com.example.quanlychitieu.db.modeldb.Transaction
 
 class ChiTieuAdapter(): RecyclerView.Adapter<ChiTieuAdapter.ChiTieuViewHolder>(){
-    private var differCallback=object :DiffUtil.ItemCallback<Transaction>(){
-        override fun areItemsTheSame(oldItem: Transaction, newItem: Transaction): Boolean {
+    private var differCallback=object :DiffUtil.ItemCallback<TransInfoResponse>(){
+        override fun areItemsTheSame(oldItem: TransInfoResponse, newItem: TransInfoResponse): Boolean {
             return oldItem.idTransaction==newItem.idTransaction
         }
 
-        override fun areContentsTheSame(oldItem: Transaction, newItem: Transaction): Boolean {
+        override fun areContentsTheSame(oldItem: TransInfoResponse, newItem: TransInfoResponse): Boolean {
             return oldItem==newItem
         }
 
@@ -36,9 +36,14 @@ class ChiTieuAdapter(): RecyclerView.Adapter<ChiTieuAdapter.ChiTieuViewHolder>()
 
     val differ=AsyncListDiffer(this,differCallback)
 
+    private var onItemClickListener:((TransInfoResponse) -> Unit)?=null
+    fun setOnItemClickListener(listener:(TransInfoResponse) ->Unit){
+        onItemClickListener=listener
+    }
+
     override fun onBindViewHolder(holder: ChiTieuAdapter.ChiTieuViewHolder, position: Int) {
         val trans=differ.currentList[position]
-
+        holder.setUp(trans,onItemClickListener)
     }
 
     override fun getItemCount(): Int {
@@ -46,7 +51,8 @@ class ChiTieuAdapter(): RecyclerView.Adapter<ChiTieuAdapter.ChiTieuViewHolder>()
     }
 
     inner class ChiTieuViewHolder(val binding:ChiTieuRecyclerviewBinding): RecyclerView.ViewHolder(binding.root){
-        fun setUp(transInfo:TransInfoResponse,listener: ((TransInfoResponse) ->Unit )?){
+        fun setUp(transInfo:TransInfoResponse, listener: ((TransInfoResponse) -> Unit)?){
+            println("ID GD: "+transInfo.idTransaction.toString())
             binding.tvIdTransaction.text= "ID giao dịch: "+transInfo.idTransaction.toString()
             binding.tvIdWallet.text="ID ví: "+transInfo.wallet_idWallet
             binding.tvIdTransType.text="Loại giao dịch: "+transInfo.type
@@ -60,4 +66,7 @@ class ChiTieuAdapter(): RecyclerView.Adapter<ChiTieuAdapter.ChiTieuViewHolder>()
             }
         }
     }
+
+
+
 }
