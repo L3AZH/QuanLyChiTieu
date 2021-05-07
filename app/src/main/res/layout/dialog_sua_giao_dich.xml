@@ -1,8 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="ID giao dịch: "
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"/>
+            <EditText
+                android:id="@+id/edtEditID"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Loại ví: "
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"/>
+            <Spinner
+                android:id="@+id/walletTypeSpinner"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="15dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Loại giao dịch: "
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"/>
+            <Spinner
+                android:id="@+id/transTypeSpinner"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="15dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Số tiền: "
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"/>
+            <EditText
+                android:id="@+id/edtEditAmount"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:inputType="number"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Ngày: "
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"/>
+            <DatePicker
+                android:id="@+id/edtEditDate"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="15dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Ghi chú: "
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"/>
+            <EditText
+                android:id="@+id/edtEditNote"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEdtTrans"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_gravity="end"
+                android:background="@drawable/custom_shape_btn_3"
+                android:text="Edit"
+                android:textColor="@color/white"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEdtCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="end"
+                android:background="@drawable/custom_shape_btn_3"
+                android:text="Cancel"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
 </layout>

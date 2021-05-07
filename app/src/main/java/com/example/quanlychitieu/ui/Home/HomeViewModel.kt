@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quanlychitieu.api.*
+import com.example.quanlychitieu.db.modeldb.TransType
 import com.example.quanlychitieu.db.modeldb.WalletType
 import com.example.quanlychitieu.repository.Repository
 import com.google.gson.Gson
@@ -131,4 +132,52 @@ class HomeViewModel(val repository: Repository):ViewModel() {
         }
         else null
     }
+
+    fun getListTransTypeFromServer(token:String) : Deferred<Boolean> = CoroutineScope(Dispatchers.Default).async{
+        val response=repository.getListTransTypeFromServer(token)
+        if(response.isSuccessful){
+            repository.addListTransTypeToDB(response.body()!!.result)
+        }
+        else{
+            false
+        }
+    }
+
+    fun getListTransTypeFromDB():Deferred<List<TransType>?> = CoroutineScope(Dispatchers.Default).async {
+        val list = repository.getListTransTypeFromDB()
+        list
+    }
+
+    fun editTransaction(token:String,updateTransaction: UpdateTransaction): Deferred<Array<String>> = CoroutineScope(Dispatchers.Default).async{
+        val result=repository.updateTransaction(token,updateTransaction.idTransaction,updateTransaction)
+        if(result.isSuccessful){
+            val response = result.body()!!
+            arrayOf(response.code.toString(),response.data.message)
+        }
+        else{
+            val gson = Gson()
+            val updateTransactionResponse = gson.fromJson(
+                result.errorBody()!!.string(),
+                UpdateTransactionResponse::class.java
+            )
+            arrayOf(updateTransactionResponse.code.toString(),updateTransactionResponse.data.message)
+        }
+    }
+
+    fun deleteTransaction(token:String, transID:Int): Deferred<Array<String>> = CoroutineScope(Dispatchers.Default).async{
+        val result=repository.deleteTransaction(token,transID)
+        if(result.isSuccessful){
+            val response = result.body()!!
+            arrayOf(response.code.toString(),response.data.message)
+        }
+        else{
+            val gson = Gson()
+            val updateTransactionResponse = gson.fromJson(
+                result.errorBody()!!.string(),
+                UpdateTransactionResponse::class.java
+            )
+            arrayOf(updateTransactionResponse.code.toString(),updateTransactionResponse.data.message)
+        }
+    }
+
 }

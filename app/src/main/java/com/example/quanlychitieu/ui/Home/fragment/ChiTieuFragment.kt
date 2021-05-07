@@ -1,5 +1,6 @@
 package com.example.quanlychitieu.ui.Home.fragment
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,13 +12,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.quanlychitieu.MainActivity
 import com.example.quanlychitieu.R
 import com.example.quanlychitieu.adapter.ChiTieuAdapter
 import com.example.quanlychitieu.api.TransInfoResponse
 import com.example.quanlychitieu.databinding.FragmentChiTieuBinding
+import com.example.quanlychitieu.dialog.EditTransDialog
 import com.example.quanlychitieu.ui.Home.HomeActivity
 import com.example.quanlychitieu.ui.Home.HomeViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
 class ChiTieuFragment : Fragment() {
@@ -43,6 +47,9 @@ class ChiTieuFragment : Fragment() {
         chiTieuAdapter.setOnItemClickListener {
             setOnItemClick(it)
         }
+        chiTieuAdapter.setOnLongItemClickListener {
+            setOnLongItemClick(it)
+        }
         viewModel.allTrans.observe(viewLifecycleOwner, Observer { response->
             chiTieuAdapter.differ.submitList(response)
         })
@@ -61,10 +68,47 @@ class ChiTieuFragment : Fragment() {
         if(dateDB.date==dateSys.date && dateDB.month==dateSys.month && dateDB.year==dateSys.year){
             //
             println("OK")
+            CoroutineScope(Dispatchers.Default).launch{
+                val transType=viewModel.getListTransTypeFromDB().await()
+                val walletType=viewModel.getListWalletFromDb().await()
+                val dialog=EditTransDialog(transType,walletType,transInfoResponse,args.idWallet)
+                dialog.show(requireActivity().supportFragmentManager,"Edit transaction")
+                dialog.isCancelable=false
+            }
         }
         else{
             Toast.makeText(activity,"Chỉ được sửa giao dịch trong ngày",Toast.LENGTH_SHORT).show()
         }
+    }
 
+    fun setOnLongItemClick(transInfoResponse: TransInfoResponse): Boolean {
+        val dateDB=transInfoResponse.date
+        val dateSys=Calendar.getInstance().time
+        //Chỉ cho sửa giao dịch trong ngày
+        if(dateDB.date==dateSys.date && dateDB.month==dateSys.month && dateDB.year==dateSys.year){
+            //
+            println("OK")
+            var dialog=AlertDialog.Builder(activity)
+            dialog.setTitle("Bạn có chắc chắn muốn xóa giao dịch này?")
+            dialog.setPositiveButton("Đúng"){dialog, which->
+                val sharePreference =
+                    requireActivity().getSharedPreferences("com.example.quanlychitieu", Context.MODE_PRIVATE)
+                val token = sharePreference.getString("accountToken", "null")
+                CoroutineScope(Dispatchers.Default).launch {
+                    val result = viewModel.deleteTransaction(token!!, transInfoResponse.idTransaction).await()
+                    dialog.cancel()
+                    Toast.makeText(activity, result[1], Toast.LENGTH_SHORT).show()
+                    viewModel.getAllTransaction(token,args.idWallet)
+                }
+            }
+            dialog.setNegativeButton("Sai"){dialog, which->
+                dialog.cancel()
+            }
+        }
+        else{
+            Toast.makeText(activity,"Chỉ được sửa giao dịch trong ngày",Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
     }
 }

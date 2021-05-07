@@ -1,9 +1,7 @@
 package com.example.quanlychitieu.adapter
 
 import android.view.LayoutInflater
-import android.view.SurfaceHolder
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -36,6 +34,11 @@ class ChiTieuAdapter(): RecyclerView.Adapter<ChiTieuAdapter.ChiTieuViewHolder>()
 
     val differ=AsyncListDiffer(this,differCallback)
 
+    private var onLongItemClickListener:((TransInfoResponse) -> Boolean)?=null
+    fun setOnLongItemClickListener(listener:(TransInfoResponse) -> Boolean){
+        onLongItemClickListener=listener
+    }
+
     private var onItemClickListener:((TransInfoResponse) -> Unit)?=null
     fun setOnItemClickListener(listener:(TransInfoResponse) ->Unit){
         onItemClickListener=listener
@@ -43,7 +46,8 @@ class ChiTieuAdapter(): RecyclerView.Adapter<ChiTieuAdapter.ChiTieuViewHolder>()
 
     override fun onBindViewHolder(holder: ChiTieuAdapter.ChiTieuViewHolder, position: Int) {
         val trans=differ.currentList[position]
-        holder.setUp(trans,onItemClickListener)
+        holder.setUpItemClick(trans,onItemClickListener)
+        holder.setUpLongItemClick(trans,onLongItemClickListener)
     }
 
     override fun getItemCount(): Int {
@@ -51,7 +55,7 @@ class ChiTieuAdapter(): RecyclerView.Adapter<ChiTieuAdapter.ChiTieuViewHolder>()
     }
 
     inner class ChiTieuViewHolder(val binding:ChiTieuRecyclerviewBinding): RecyclerView.ViewHolder(binding.root){
-        fun setUp(transInfo:TransInfoResponse, listener: ((TransInfoResponse) -> Unit)?){
+        fun setUpItemClick(transInfo:TransInfoResponse, listener: ((TransInfoResponse) -> Unit)?){
             println("ID GD: "+transInfo.idTransaction.toString())
             binding.tvIdTransaction.text= "ID giao dịch: "+transInfo.idTransaction.toString()
             binding.tvIdWallet.text="ID ví: "+transInfo.wallet_idWallet
@@ -59,14 +63,18 @@ class ChiTieuAdapter(): RecyclerView.Adapter<ChiTieuAdapter.ChiTieuViewHolder>()
             binding.tvAmount.text="Số tiền: "+transInfo.amount
             binding.tvDate.text="Ngày: "+transInfo.date
             binding.tvNote.text="Ghi chú: "+transInfo.note
-            itemView.setOnClickListener{
+            itemView.setOnClickListener {
                 listener?.let {
                     it(transInfo)
                 }
             }
         }
+        fun setUpLongItemClick(transInfo: TransInfoResponse,listener:((TransInfoResponse) -> Boolean)?){
+            itemView.setOnLongClickListener {
+                listener.let {
+                    it?.invoke(transInfo)!!
+                }
+            }
+        }
     }
-
-
-
 }

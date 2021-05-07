@@ -2,6 +2,7 @@ package com.example.quanlychitieu.repository
 
 import com.example.quanlychitieu.api.*
 import com.example.quanlychitieu.db.DbDAO
+import com.example.quanlychitieu.db.modeldb.TransType
 import com.example.quanlychitieu.db.modeldb.WalletType
 import retrofit2.Response
 
@@ -19,6 +20,9 @@ class Repository(val dbDAO: DbDAO) {
     suspend fun getListWalletType(token: String) = RetrofitInstance.api.getListWalletType(token)
     suspend fun createNewWallet(token: String,walletNew:CreateWalletRequest) = RetrofitInstance.api.createNewWallet(token,walletNew)
     suspend fun getAllTransactions(token:String,type:String)=RetrofitInstance.api.getAllTransaction(token,type)
+    suspend fun updateTransaction(token:String,idTrans: Int,updateTrans:UpdateTransaction)=RetrofitInstance.api.updateTransaction(token,idTrans,updateTrans)
+    suspend fun deleteTransaction(token:String,idTrans: Int)= RetrofitInstance.api.deleteTransaction(token,idTrans)
+    suspend fun getListTransTypeFromServer(token: String) = RetrofitInstance.api.getAllTransType(token)
 
     suspend fun deleteWallet(token: String,typeWallet:String) = RetrofitInstance.api.deleteWallet(token,typeWallet)
     suspend fun updateWallet(token: String,typeWallet:String,amount: UpdateWalletRequest) = RetrofitInstance.api.updateWallet(token,typeWallet,amount)
@@ -37,4 +41,22 @@ class Repository(val dbDAO: DbDAO) {
         if (count == listWalletType.size) return true
         return false
     }
+
+    suspend fun addListTransTypeToDB(listTransType: List<TransType>):Boolean{
+        for (item in listTransType){
+            try{
+                dbDAO.insertListTransType(item)
+            }
+            catch(e:Exception){
+                e.printStackTrace()
+                return false
+            }
+        }
+        return true
+    }
+
+    suspend fun getListTransTypeFromDB():List<TransType>{
+        return dbDAO.getListTransTypeFromDatabase()
+    }
+
 }

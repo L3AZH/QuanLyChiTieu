@@ -1,5 +1,6 @@
 package com.example.quanlychitieu.api
 
+import com.example.quanlychitieu.db.modeldb.TransType
 import com.example.quanlychitieu.db.modeldb.Transaction
 import com.example.quanlychitieu.db.modeldb.WalletType
 import com.google.gson.annotations.SerializedName
@@ -251,6 +252,8 @@ data class TransInfoResponse(
     val idTransaction:Int,
     @SerializedName("Wallet_idWallet")
     val wallet_idWallet:Int,
+    @SerializedName("TransType_idTransType")
+    val transType_id:Int,
     @SerializedName("type")
     val type:String,
     @SerializedName("amount")
@@ -260,6 +263,51 @@ data class TransInfoResponse(
     @SerializedName("date")
     val date: Date
 )
+
+data class UpdateTransactionResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("data")
+    val data: UpdateTransactionDataResponse,
+    @SerializedName("flag")
+    val flag: Boolean
+)
+
+data class UpdateTransactionDataResponse(
+    @SerializedName("message")
+    val message:String
+)
+
+data class DeleteTransactionResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("data")
+    val data: UpdateTransactionDataResponse,
+    @SerializedName("flag")
+    val flag: Boolean
+)
+
+data class DeleteTransactionDataResponse(
+    @SerializedName("message")
+    val message:String
+)
+
+data class GetListTransType(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("data")
+    val data: GetListTransTypeSuccess,
+    @SerializedName("flag")
+    val flag: Boolean
+)
+
+data class GetListTransTypeSuccess(
+    @SerializedName("result")
+
+
+    val result:List<TransType>
+)
+
 
 /**
  * Model Response cua API delete wallet
@@ -276,6 +324,7 @@ data class DeleteWalletResponse(
     @SerializedName("flag")
     val flag: Boolean
 )
+
 /**
  * Model Response cua API update wallet
  */

@@ -7,7 +7,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.quanlychitieu.db.modeldb.WalletType
 
-@Database(entities = [WalletType::class],version = 1)
+@Database(entities = [WalletType::class],version = 4)
 abstract class DatabaseInstance:RoomDatabase() {
     abstract fun getDbDao():DbDAO
 

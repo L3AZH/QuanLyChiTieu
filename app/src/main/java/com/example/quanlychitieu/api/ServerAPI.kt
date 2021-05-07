@@ -22,6 +22,7 @@ interface ServerAPI {
     @GET("wallettype/get-all-wallettype")
     suspend fun getListWalletType(@Header("Authorization") token: String): Response<GetListWalletTypeResponseSuccess>
 
+
     @POST("account/wallet/create-wallet")
     suspend fun createNewWallet(
         @Header("Authorization") token: String,
@@ -33,6 +34,24 @@ interface ServerAPI {
         @Header("Authorization") token:String,
         @Path("type")type:String
     ):Response<GetAllTransactionSuccess>
+
+    @GET("/get-all-transtype")
+    suspend fun getAllTransType(
+        @Header("Authorization")token:String
+    ):Response<GetListTransTypeSuccess>
+
+    @POST("/update-transaction/{idTransaction}")
+    suspend fun updateTransaction(
+        @Header("Authorization") token:String,
+        @Path("idTransaction") idTrans:Int,
+        @Body updateTrans: UpdateTransaction
+    ):Response<UpdateTransactionResponse>
+
+    @DELETE("/delete-transaction/{idTransaction}")
+    suspend fun deleteTransaction(
+        @Header("Authorization") token:String,
+        @Path("idTransaction") idTrans:Int
+    ):Response<DeleteTransactionResponse>
 
     @DELETE("account/wallet/delete-wallet/{typeWallet}")
     suspend fun deleteWallet(
