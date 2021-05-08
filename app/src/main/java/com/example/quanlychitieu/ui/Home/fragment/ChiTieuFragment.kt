@@ -16,11 +16,14 @@ import com.example.quanlychitieu.R
 import com.example.quanlychitieu.adapter.ChiTieuAdapter
 import com.example.quanlychitieu.api.TransInfoResponse
 import com.example.quanlychitieu.databinding.FragmentChiTieuBinding
+import com.example.quanlychitieu.db.DbDAO
+import com.example.quanlychitieu.dialog.AddTransactionDialog
 import com.example.quanlychitieu.dialog.EditTransDialog
 import com.example.quanlychitieu.ui.Home.HomeActivity
 import com.example.quanlychitieu.ui.Home.HomeViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -41,6 +44,7 @@ class ChiTieuFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setBtnAdd()
         chiTieuAdapter= ChiTieuAdapter()
         binding.rvTransaction.layoutManager=LinearLayoutManager(activity)
         binding.rvTransaction.adapter=chiTieuAdapter
@@ -111,4 +115,15 @@ class ChiTieuFragment : Fragment() {
         }
         return true
     }
+
+    fun setBtnAdd(){
+        binding.btnAddTrans.setOnClickListener {
+            CoroutineScope(Dispatchers.Default).async{
+                var walletType=viewModel.getListWalletFromDb().await()
+                var transType=viewModel.getListTransTypeFromDB().await()
+                var dialog=AddTransactionDialog(transType,walletType,args.idWallet)
+            }
+        }
+    }
+
 }

@@ -136,7 +136,7 @@ class HomeViewModel(val repository: Repository):ViewModel() {
     fun getListTransTypeFromServer(token:String) : Deferred<Boolean> = CoroutineScope(Dispatchers.Default).async{
         val response=repository.getListTransTypeFromServer(token)
         if(response.isSuccessful){
-            repository.addListTransTypeToDB(response.body()!!.result)
+            repository.addListTransTypeToDB(response.body()!!.data.result)
         }
         else{
             false
@@ -148,7 +148,7 @@ class HomeViewModel(val repository: Repository):ViewModel() {
         list
     }
 
-    fun editTransaction(token:String,updateTransaction: UpdateTransaction): Deferred<Array<String>> = CoroutineScope(Dispatchers.Default).async{
+    fun editTransaction(token:String,updateTransaction: UpdateTransactionRequest): Deferred<Array<String>> = CoroutineScope(Dispatchers.Default).async{
         val result=repository.updateTransaction(token,updateTransaction.idTransaction,updateTransaction)
         if(result.isSuccessful){
             val response = result.body()!!
@@ -177,6 +177,22 @@ class HomeViewModel(val repository: Repository):ViewModel() {
                 UpdateTransactionResponse::class.java
             )
             arrayOf(updateTransactionResponse.code.toString(),updateTransactionResponse.data.message)
+        }
+    }
+
+    fun createTransaction(token:String,createTrans:CreateTransactionRequest): Deferred<Array<String>> = CoroutineScope(Dispatchers.Default).async {
+        val result=repository.createTransaction(token,createTrans)
+        if(result.isSuccessful){
+            val response=result.body()!!
+            arrayOf(response.code.toString(),response.data.message)
+        }
+        else{
+            val gson=Gson()
+            val createTransactionResponse=gson.fromJson(
+                result.errorBody()!!.string(),
+                CreateTransactionSuccessResponse::class.java
+            )
+            arrayOf(createTransactionResponse.code.toString(),createTransactionResponse.data.message)
         }
     }
 

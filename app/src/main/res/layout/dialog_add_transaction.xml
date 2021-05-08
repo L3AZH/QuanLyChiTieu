@@ -13,23 +13,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:text="ID giao dịch: "
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"/>
-            <EditText
-                android:id="@+id/edtEditID"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
                 android:text="Loại ví: "
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"/>
@@ -114,14 +97,14 @@
             android:layout_gravity="end">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnEdtTrans"
+                android:id="@+id/btnSaveTrans"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:layout_gravity="end"
                 android:background="@drawable/custom_shape_btn_3"
-                android:text="Edit"
+                android:text="Save"
                 android:textColor="@color/white"/>
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnEdtCancel"
@@ -134,6 +117,5 @@
                 android:text="Cancel"
                 android:textColor="@color/white"/>
         </LinearLayout>
-
     </LinearLayout>
 </layout>

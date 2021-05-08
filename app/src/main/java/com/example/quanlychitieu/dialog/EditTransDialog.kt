@@ -18,7 +18,7 @@ import com.example.quanlychitieu.adapter.TransTypeAdapter
 import com.example.quanlychitieu.adapter.WalletTypeDropDownAdapter
 import com.example.quanlychitieu.api.RegisterRequest
 import com.example.quanlychitieu.api.TransInfoResponse
-import com.example.quanlychitieu.api.UpdateTransaction
+import com.example.quanlychitieu.api.UpdateTransactionRequest
 import com.example.quanlychitieu.databinding.DialogSuaGiaoDichBinding
 import com.example.quanlychitieu.db.modeldb.TransType
 import com.example.quanlychitieu.db.modeldb.WalletType
@@ -73,15 +73,13 @@ class EditTransDialog (val listTransType: List<TransType>?, val listWalletType:L
                 var id=binding.edtEditID.text.toString().toInt()
                 var transTypeSelected=binding.transTypeSpinner.selectedItem as TransType
                 var amount=binding.edtEditAmount.text.toString()
-                var note=binding.edtEditNote.text.toString()
-                if(amount==null || amount==""){
-                    Toast.makeText(context,"Không được bỏ trống số tiền",Toast.LENGTH_SHORT).show()
-                }
-                else{
-                    var updateTransaction=UpdateTransaction(id,transTypeSelected.idTransType,amount.toDouble(),note)
+                var note=binding.edtEditNote.text.toString().trim()
+                if(checkField(amount)){
+                    var updateTransaction=UpdateTransactionRequest(id,transTypeSelected.idTransType,amount.toDouble(),note)
                     val result=viewModel.editTransaction(token!!,updateTransaction).await()
                     if(result[0].equals("200")){
                         viewModel.getAllTransaction(token,idWallet)
+                        dialog?.cancel()
                     }
                     else{
                         Toast.makeText(context,result[1],Toast.LENGTH_SHORT).show()
@@ -92,6 +90,18 @@ class EditTransDialog (val listTransType: List<TransType>?, val listWalletType:L
         binding.btnEdtCancel.setOnClickListener{
             dialog?.cancel()
         }
+    }
+
+    fun checkField(amount:String):Boolean{
+        if(amount.isEmpty() || amount==""){
+            Toast.makeText(context,"Vui lòng nhập số tiền",Toast.LENGTH_SHORT).show()
+            return false
+        }
+        else if(amount.toDouble()<1000){
+            Toast.makeText(context,"Số tiền không hợp lệ",Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
     }
 
 }

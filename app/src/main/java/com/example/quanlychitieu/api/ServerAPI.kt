@@ -44,7 +44,7 @@ interface ServerAPI {
     suspend fun updateTransaction(
         @Header("Authorization") token:String,
         @Path("idTransaction") idTrans:Int,
-        @Body updateTrans: UpdateTransaction
+        @Body updateTrans: UpdateTransactionRequest
     ):Response<UpdateTransactionResponse>
 
     @DELETE("/delete-transaction/{idTransaction}")
@@ -52,6 +52,12 @@ interface ServerAPI {
         @Header("Authorization") token:String,
         @Path("idTransaction") idTrans:Int
     ):Response<DeleteTransactionResponse>
+
+    @POST("/create-transaction")
+    suspend fun createTransaction(
+        @Header("Authorization") token:String,
+        @Body trans:CreateTransactionRequest
+    ):Response<CreateTransactionSuccessResponse>
 
     @DELETE("account/wallet/delete-wallet/{typeWallet}")
     suspend fun deleteWallet(

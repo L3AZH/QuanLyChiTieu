@@ -20,9 +20,10 @@ class Repository(val dbDAO: DbDAO) {
     suspend fun getListWalletType(token: String) = RetrofitInstance.api.getListWalletType(token)
     suspend fun createNewWallet(token: String,walletNew:CreateWalletRequest) = RetrofitInstance.api.createNewWallet(token,walletNew)
     suspend fun getAllTransactions(token:String,type:String)=RetrofitInstance.api.getAllTransaction(token,type)
-    suspend fun updateTransaction(token:String,idTrans: Int,updateTrans:UpdateTransaction)=RetrofitInstance.api.updateTransaction(token,idTrans,updateTrans)
+    suspend fun updateTransaction(token:String,idTrans: Int,updateTrans:UpdateTransactionRequest)=RetrofitInstance.api.updateTransaction(token,idTrans,updateTrans)
     suspend fun deleteTransaction(token:String,idTrans: Int)= RetrofitInstance.api.deleteTransaction(token,idTrans)
     suspend fun getListTransTypeFromServer(token: String) = RetrofitInstance.api.getAllTransType(token)
+    suspend fun createTransaction(token:String,trans:CreateTransactionRequest)=RetrofitInstance.api.createTransaction(token,trans)
 
     suspend fun deleteWallet(token: String,typeWallet:String) = RetrofitInstance.api.deleteWallet(token,typeWallet)
     suspend fun updateWallet(token: String,typeWallet:String,amount: UpdateWalletRequest) = RetrofitInstance.api.updateWallet(token,typeWallet,amount)

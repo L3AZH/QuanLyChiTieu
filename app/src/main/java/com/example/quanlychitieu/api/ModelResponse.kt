@@ -282,7 +282,7 @@ data class DeleteTransactionResponse(
     @SerializedName("code")
     val code: Int,
     @SerializedName("data")
-    val data: UpdateTransactionDataResponse,
+    val data: DeleteTransactionDataResponse,
     @SerializedName("flag")
     val flag: Boolean
 )
@@ -292,20 +292,32 @@ data class DeleteTransactionDataResponse(
     val message:String
 )
 
-data class GetListTransType(
+data class GetListTransTypeSuccess(
     @SerializedName("code")
     val code: Int,
     @SerializedName("data")
-    val data: GetListTransTypeSuccess,
+    val data: GetListTransTypeDataSuccess,
     @SerializedName("flag")
     val flag: Boolean
 )
 
-data class GetListTransTypeSuccess(
+data class GetListTransTypeDataSuccess(
     @SerializedName("result")
-
-
     val result:List<TransType>
+)
+
+data class CreateTransactionSuccessResponse(
+    @SerializedName("code")
+    val code:Int,
+    @SerializedName("data")
+    val data: CreateTransactionDataSuccessResponse,
+    @SerializedName("flag")
+    val flag:Boolean
+)
+
+data class CreateTransactionDataSuccessResponse(
+    @SerializedName("message")
+    val message:String
 )
 
 
