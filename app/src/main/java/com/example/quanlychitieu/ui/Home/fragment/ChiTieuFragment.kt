@@ -119,9 +119,10 @@ class ChiTieuFragment : Fragment() {
     fun setBtnAdd(){
         binding.btnAddTrans.setOnClickListener {
             CoroutineScope(Dispatchers.Default).async{
-                var walletType=viewModel.getListWalletFromDb().await()
                 var transType=viewModel.getListTransTypeFromDB().await()
-                var dialog=AddTransactionDialog(transType,walletType,args.idWallet)
+                var dialog=AddTransactionDialog(transType!!,args.idWallet)
+                dialog.show(requireActivity().supportFragmentManager,"Add transaction")
+                dialog.isCancelable = false
             }
         }
     }

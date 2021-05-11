@@ -35,25 +35,25 @@ interface ServerAPI {
         @Path("type")type:String
     ):Response<GetAllTransactionSuccess>
 
-    @GET("/get-all-transtype")
+    @GET("transtype/get-all-transtype")
     suspend fun getAllTransType(
         @Header("Authorization")token:String
     ):Response<GetListTransTypeSuccess>
 
-    @POST("/update-transaction/{idTransaction}")
+    @PUT("account/wallet/transaction/update-transaction/{idTransaction}")
     suspend fun updateTransaction(
         @Header("Authorization") token:String,
         @Path("idTransaction") idTrans:Int,
         @Body updateTrans: UpdateTransactionRequest
     ):Response<UpdateTransactionResponse>
 
-    @DELETE("/delete-transaction/{idTransaction}")
+    @DELETE("account/wallet/transaction/delete-transaction/{idTransaction}")
     suspend fun deleteTransaction(
         @Header("Authorization") token:String,
         @Path("idTransaction") idTrans:Int
     ):Response<DeleteTransactionResponse>
 
-    @POST("/create-transaction")
+    @POST("account/wallet/transaction/create-transaction")
     suspend fun createTransaction(
         @Header("Authorization") token:String,
         @Body trans:CreateTransactionRequest

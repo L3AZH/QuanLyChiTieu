@@ -35,14 +35,13 @@ data class UpdateWalletRequest(
 )
 
 data class UpdateTransactionRequest(
-    val idTransaction:Int,
     val idTransType:Int,
     val amount:Double,
     val note:String
 )
 
 data class CreateTransactionRequest(
-    val wallet_idWallet:Int,
+    val idWallet:Int,
     val idTransType:Int,
     val amount:Double,
     val note:String,

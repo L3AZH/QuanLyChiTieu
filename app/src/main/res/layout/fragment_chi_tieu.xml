@@ -9,15 +9,16 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/rvTransaction"/>
+            android:id="@+id/rvTransaction"
+            android:padding="20dp"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnAddTrans"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_gravity="end"
             android:layout_marginRight="30dp"
-            android:layout_marginTop="640dp"
+            android:layout_marginTop="600dp"
             android:backgroundTint="@color/humanskin"
             android:src="@drawable/ic_baseline_add_32"
             android:tint="@color/white"/>

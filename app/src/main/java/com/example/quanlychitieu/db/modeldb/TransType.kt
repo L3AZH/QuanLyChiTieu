@@ -8,7 +8,7 @@ import java.io.Serializable
 data class TransType(
     @PrimaryKey val idTransType:Int,
     val type:String,
-    val catergory:String
+    val categoryName:String
 ):Serializable{
 
 }

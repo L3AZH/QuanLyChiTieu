@@ -45,11 +45,12 @@ class HomeActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Default).launch {
             var result1 = homeViewModel.loadingListWalletTypeFromSvToDb(token!!).await()
             var result2 = homeViewModel.getListTransTypeFromServer(token!!).await()
+            println(result2)
             if(result1 && result2){
                 Snackbar.make(binding.root, "load data success", Snackbar.LENGTH_LONG).show()
             }
             else{
-                Snackbar.make(binding.root, "load data success", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.root, "load data fail", Snackbar.LENGTH_LONG).show()
             }
         }
     }

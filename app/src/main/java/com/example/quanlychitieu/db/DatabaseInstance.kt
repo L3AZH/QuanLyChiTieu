@@ -5,9 +5,10 @@ import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.quanlychitieu.db.modeldb.TransType
 import com.example.quanlychitieu.db.modeldb.WalletType
 
-@Database(entities = [WalletType::class],version = 4)
+@Database(entities = [WalletType::class, TransType::class],version = 3)
 abstract class DatabaseInstance:RoomDatabase() {
     abstract fun getDbDao():DbDAO
 
