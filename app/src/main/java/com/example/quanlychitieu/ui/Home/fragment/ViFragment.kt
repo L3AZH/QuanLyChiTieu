@@ -72,14 +72,12 @@ class ViFragment : Fragment() {
     }
     fun setOnItemClick(walletInfo: WalletInfo){
         Toast.makeText(context, "itemclick "+walletInfo.idWallet, Toast.LENGTH_SHORT).show()
-        val bundle = Bundle().apply {
-            putSerializable("idWallet",walletInfo.idWallet)
-        }
-        println("ID Ví fragment: "+walletInfo.idWallet)
-        findNavController().navigate(
-            R.id.action_viFragment_to_middleFragment,
-            bundle
-        )
+//        val bundle = Bundle().apply {
+//            putSerializable("idWallet",walletInfo.idWallet)
+//        }
+//        println("ID Ví fragment: "+walletInfo.idWallet)
+        val goToMiddleFragment = ViFragmentDirections.actionViFragmentToMiddleFragment(walletInfo.idWallet)
+        findNavController().navigate(goToMiddleFragment)
     }
     fun setOnDeleteItemClick(walletInfo: WalletInfo){
         val sharePreference =
