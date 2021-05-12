@@ -3,12 +3,12 @@ package com.example.quanlychitieu.ui.Home.fragment
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +16,6 @@ import com.example.quanlychitieu.R
 import com.example.quanlychitieu.adapter.ChiTieuAdapter
 import com.example.quanlychitieu.api.TransInfoResponse
 import com.example.quanlychitieu.databinding.FragmentChiTieuBinding
-import com.example.quanlychitieu.db.DbDAO
 import com.example.quanlychitieu.dialog.AddTransactionDialog
 import com.example.quanlychitieu.dialog.EditTransDialog
 import com.example.quanlychitieu.ui.Home.HomeActivity
@@ -27,11 +26,11 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.*
 
-class ChiTieuFragment : Fragment() {
+class ChiTieuFragment(idWalletIn:String) : Fragment() {
     lateinit var binding: FragmentChiTieuBinding
     lateinit var chiTieuAdapter: ChiTieuAdapter
     lateinit var viewModel:HomeViewModel
-    val args: ChiTieuFragmentArgs by navArgs()
+    var idWallet:String=idWalletIn
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,8 +59,8 @@ class ChiTieuFragment : Fragment() {
         val sharePreference =
             requireActivity().getSharedPreferences("com.example.quanlychitieu", Context.MODE_PRIVATE)
         val token = sharePreference.getString("accountToken", "null")
-        viewModel.getAllTransaction(token!!,args.idWallet)
-        println("ID Chi tiêu fragment: "+args.idWallet)
+        viewModel.getAllTransaction(token!!,idWallet)
+        println("ID Chi tiêu fragment: "+idWallet)
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -75,7 +74,7 @@ class ChiTieuFragment : Fragment() {
             CoroutineScope(Dispatchers.Default).launch{
                 val transType=viewModel.getListTransTypeFromDB().await()
                 val walletType=viewModel.getListWalletFromDb().await()
-                val dialog=EditTransDialog(transType,walletType,transInfoResponse,args.idWallet)
+                val dialog=EditTransDialog(transType,walletType,transInfoResponse,idWallet)
                 dialog.show(requireActivity().supportFragmentManager,"Edit transaction")
                 dialog.isCancelable=false
             }
@@ -102,7 +101,7 @@ class ChiTieuFragment : Fragment() {
                     val result = viewModel.deleteTransaction(token!!, transInfoResponse.idTransaction).await()
                     dialog.cancel()
                     Toast.makeText(activity, result[1], Toast.LENGTH_SHORT).show()
-                    viewModel.getAllTransaction(token,args.idWallet)
+                    viewModel.getAllTransaction(token,idWallet)
                 }
             }
             dialog.setNegativeButton("Sai"){dialog, which->
@@ -120,7 +119,7 @@ class ChiTieuFragment : Fragment() {
         binding.btnAddTrans.setOnClickListener {
             CoroutineScope(Dispatchers.Default).async{
                 var transType=viewModel.getListTransTypeFromDB().await()
-                var dialog=AddTransactionDialog(transType!!,args.idWallet)
+                var dialog=AddTransactionDialog(transType!!,idWallet)
                 dialog.show(requireActivity().supportFragmentManager,"Add transaction")
                 dialog.isCancelable = false
             }

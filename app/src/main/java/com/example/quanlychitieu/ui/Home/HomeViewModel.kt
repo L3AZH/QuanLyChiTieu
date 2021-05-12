@@ -173,11 +173,11 @@ class HomeViewModel(val repository: Repository):ViewModel() {
         }
         else{
             val gson = Gson()
-            val updateTransactionResponse = gson.fromJson(
+            val deleteTransactionResponse = gson.fromJson(
                 result.errorBody()!!.string(),
-                UpdateTransactionResponse::class.java
+                DeleteTransactionResponse::class.java
             )
-            arrayOf(updateTransactionResponse.code.toString(),updateTransactionResponse.data.message)
+            arrayOf(deleteTransactionResponse.code.toString(),deleteTransactionResponse.data.message)
         }
     }
 

@@ -16,8 +16,8 @@
         android:label="fragment_vi"
         tools:layout="@layout/fragment_vi" >
         <action
-            android:id="@+id/action_viFragment_to_chiTieuFragment"
-            app:destination="@id/chiTieuFragment" />
+            android:id="@+id/action_viFragment_to_middleFragment"
+            app:destination="@id/middleFragment" />
     </fragment>
     <fragment
         android:id="@+id/thongKeFragment"
@@ -27,6 +27,19 @@
         android:id="@+id/chiTieuFragment"
         android:name="com.example.quanlychitieu.ui.Home.fragment.ChiTieuFragment"
         android:label="ChiTieuFragment" >
+        <argument android:name="idWallet" />
+    </fragment>
+    <fragment
+        android:id="@+id/budgetFragment2"
+        android:name="com.example.quanlychitieu.ui.Home.fragment.BudgetFragment"
+        android:label="BudgetFragment" >
+        <argument android:name="idWallet" />
+    </fragment>
+    <fragment
+        android:id="@+id/middleFragment"
+        android:name="com.example.quanlychitieu.ui.Home.fragment.MiddleFragment"
+        android:label="fragment_middle"
+        tools:layout="@layout/fragment_middle" >
         <argument android:name="idWallet" />
     </fragment>
 </navigation>

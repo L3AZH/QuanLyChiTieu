@@ -77,7 +77,7 @@ class ViFragment : Fragment() {
         }
         println("ID Ví fragment: "+walletInfo.idWallet)
         findNavController().navigate(
-            R.id.action_viFragment_to_chiTieuFragment,
+            R.id.action_viFragment_to_middleFragment,
             bundle
         )
     }
