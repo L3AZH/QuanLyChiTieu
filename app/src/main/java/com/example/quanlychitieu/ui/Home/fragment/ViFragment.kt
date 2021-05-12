@@ -2,20 +2,18 @@ package com.example.quanlychitieu.ui.Home.fragment
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.quanlychitieu.R
 import com.example.quanlychitieu.adapter.ViAdapter
 import com.example.quanlychitieu.api.WalletInfo
-import com.example.quanlychitieu.databinding.ChiTieuRecyclerviewBinding
 import com.example.quanlychitieu.databinding.FragmentViBinding
 import com.example.quanlychitieu.dialog.AddingWalletDialog
 import com.example.quanlychitieu.dialog.LoadingDialog
@@ -47,6 +45,7 @@ class ViFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpRecycleView()
         setOnclickAddWalletFloatingBtn()
+
     }
 
     fun setUpRecycleView(){

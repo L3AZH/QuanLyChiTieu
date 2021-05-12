@@ -130,7 +130,9 @@ class HomeViewModel(val repository: Repository):ViewModel() {
         if(response.isSuccessful()){
             allTrans.postValue(response.body()!!.data.result)
         }
-        else null
+        else {
+            allTrans.postValue(null)
+        }
     }
 
     fun getListTransTypeFromServer(token:String) : Deferred<Boolean> = CoroutineScope(Dispatchers.Default).async{
