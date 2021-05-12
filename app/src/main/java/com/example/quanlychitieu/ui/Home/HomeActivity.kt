@@ -43,12 +43,14 @@ class HomeActivity : AppCompatActivity() {
         val sharePreference = getSharedPreferences("com.example.quanlychitieu", Context.MODE_PRIVATE)
         val token = sharePreference.getString("accountToken", "null")
         CoroutineScope(Dispatchers.Default).launch {
-            val result = homeViewModel.loadingListWalletTypeFromSvToDb(token!!).await()
-            if(result){
+            var result1 = homeViewModel.loadingListWalletTypeFromSvToDb(token!!).await()
+            var result2 = homeViewModel.getListTransTypeFromServer(token!!).await()
+            println(result2)
+            if(result1 && result2){
                 Snackbar.make(binding.root, "load data success", Snackbar.LENGTH_LONG).show()
             }
             else{
-                Snackbar.make(binding.root, "load data success", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.root, "load data fail", Snackbar.LENGTH_LONG).show()
             }
         }
     }

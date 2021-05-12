@@ -1,5 +1,6 @@
 package com.example.quanlychitieu.api
 
+import com.example.quanlychitieu.db.modeldb.TransType
 import com.example.quanlychitieu.db.modeldb.Transaction
 import com.example.quanlychitieu.db.modeldb.WalletType
 import com.google.gson.annotations.SerializedName
@@ -229,7 +230,7 @@ data class GetAllTransactionSuccess(
 
 data class DataGetAllTransactionSuccess(
     @SerializedName("result")
-    val result:List<Transaction>
+    val result:List<TransInfoResponse>
 )
 
 data class GetAllTransactionFail(
@@ -249,8 +250,10 @@ data class DataGetAllTransactionFail(
 data class TransInfoResponse(
     @SerializedName("idTransaction")
     val idTransaction:Int,
-    @SerializedName("wallet_idWallet")
+    @SerializedName("Wallet_idWallet")
     val wallet_idWallet:Int,
+    @SerializedName("TransType_idTransType")
+    val transType_id:Int,
     @SerializedName("type")
     val type:String,
     @SerializedName("amount")
@@ -260,6 +263,63 @@ data class TransInfoResponse(
     @SerializedName("date")
     val date: Date
 )
+
+data class UpdateTransactionResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("data")
+    val data: UpdateTransactionDataResponse,
+    @SerializedName("flag")
+    val flag: Boolean
+)
+
+data class UpdateTransactionDataResponse(
+    @SerializedName("message")
+    val message:String
+)
+
+data class DeleteTransactionResponse(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("data")
+    val data: DeleteTransactionDataResponse,
+    @SerializedName("flag")
+    val flag: Boolean
+)
+
+data class DeleteTransactionDataResponse(
+    @SerializedName("message")
+    val message:String
+)
+
+data class GetListTransTypeSuccess(
+    @SerializedName("code")
+    val code: Int,
+    @SerializedName("data")
+    val data: GetListTransTypeDataSuccess,
+    @SerializedName("flag")
+    val flag: Boolean
+)
+
+data class GetListTransTypeDataSuccess(
+    @SerializedName("result")
+    val result:List<TransType>
+)
+
+data class CreateTransactionSuccessResponse(
+    @SerializedName("code")
+    val code:Int,
+    @SerializedName("data")
+    val data: CreateTransactionDataSuccessResponse,
+    @SerializedName("flag")
+    val flag:Boolean
+)
+
+data class CreateTransactionDataSuccessResponse(
+    @SerializedName("message")
+    val message:String
+)
+
 
 /**
  * Model Response cua API delete wallet
@@ -276,6 +336,7 @@ data class DeleteWalletResponse(
     @SerializedName("flag")
     val flag: Boolean
 )
+
 /**
  * Model Response cua API update wallet
  */

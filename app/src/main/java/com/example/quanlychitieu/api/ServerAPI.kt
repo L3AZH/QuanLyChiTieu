@@ -22,17 +22,42 @@ interface ServerAPI {
     @GET("wallettype/get-all-wallettype")
     suspend fun getListWalletType(@Header("Authorization") token: String): Response<GetListWalletTypeResponseSuccess>
 
+
     @POST("account/wallet/create-wallet")
     suspend fun createNewWallet(
         @Header("Authorization") token: String,
         @Body newWallet: CreateWalletRequest
     ): Response<CreateWalletResponseSuccess>
 
-    @GET("account/wallet/all-transaction")
+    @GET("account/wallet/transaction/all-transaction/{type}")
     suspend fun getAllTransaction(
         @Header("Authorization") token:String,
-        @Query("type")type:String
+        @Path("type")type:String
     ):Response<GetAllTransactionSuccess>
+
+    @GET("transtype/get-all-transtype")
+    suspend fun getAllTransType(
+        @Header("Authorization")token:String
+    ):Response<GetListTransTypeSuccess>
+
+    @PUT("account/wallet/transaction/update-transaction/{idTransaction}")
+    suspend fun updateTransaction(
+        @Header("Authorization") token:String,
+        @Path("idTransaction") idTrans:Int,
+        @Body updateTrans: UpdateTransactionRequest
+    ):Response<UpdateTransactionResponse>
+
+    @DELETE("account/wallet/transaction/delete-transaction/{idTransaction}")
+    suspend fun deleteTransaction(
+        @Header("Authorization") token:String,
+        @Path("idTransaction") idTrans:Int
+    ):Response<DeleteTransactionResponse>
+
+    @POST("account/wallet/transaction/create-transaction")
+    suspend fun createTransaction(
+        @Header("Authorization") token:String,
+        @Body trans:CreateTransactionRequest
+    ):Response<CreateTransactionSuccessResponse>
 
     @DELETE("account/wallet/delete-wallet/{typeWallet}")
     suspend fun deleteWallet(

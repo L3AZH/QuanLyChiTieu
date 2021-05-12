@@ -7,7 +7,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@android:color/holo_orange_light"
             app:cardCornerRadius="10dp"
-            android:layout_margin="5dp">
+            android:layout_margin="10dp">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -18,42 +18,49 @@
                     android:layout_height="wrap_content"
                     android:text="ID nha"
                     android:textSize="20sp"
-                    android:layout_margin="5dp"/>
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"/>
                 <TextView
                     android:id="@+id/tvIdWallet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tên ví nha"
                     android:textSize="20sp"
-                    android:layout_margin="5dp"/>
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"/>
                 <TextView
                     android:id="@+id/tvIdTransType"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Loại giao dịch nha"
                     android:textSize="20sp"
-                    android:layout_margin="5dp"/>
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"/>
                 <TextView
                     android:id="@+id/tvAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Số tiền nha"
                     android:textSize="20sp"
-                    android:layout_margin="5dp"/>
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"/>
                 <TextView
                     android:id="@+id/tvDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ngày nha"
                     android:textSize="20sp"
-                    android:layout_margin="5dp"/>
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"/>
                 <TextView
                     android:id="@+id/tvNote"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ghi chú nha"
                     android:textSize="20sp"
-                    android:layout_margin="5dp"/>
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 </layout>

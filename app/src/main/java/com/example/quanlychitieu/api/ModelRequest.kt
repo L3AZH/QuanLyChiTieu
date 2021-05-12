@@ -1,6 +1,7 @@
 package com.example.quanlychitieu.api
 
 import com.google.gson.annotations.SerializedName
+import java.sql.Date
 
 /**
  * Request body cua login API
@@ -31,4 +32,18 @@ data class CreateWalletRequest(
  */
 data class UpdateWalletRequest(
     val amount:String,
+)
+
+data class UpdateTransactionRequest(
+    val idTransType:Int,
+    val amount:Double,
+    val note:String
+)
+
+data class CreateTransactionRequest(
+    val idWallet:Int,
+    val idTransType:Int,
+    val amount:Double,
+    val note:String,
+    val date:Date
 )
