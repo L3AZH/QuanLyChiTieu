@@ -33,6 +33,7 @@ class ViewPagerAdapter(fragmentManager: FragmentManager,lifecycle: Lifecycle,idW
             }
             else->{
                 ChiTieuFragment(idWallet)
+                
             }
         }
     }
