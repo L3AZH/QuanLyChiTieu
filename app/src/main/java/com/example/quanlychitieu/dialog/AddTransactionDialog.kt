@@ -51,6 +51,7 @@ class AddTransactionDialog (val listTransType:List<TransType>, val idWallet:Stri
     fun loadDetail(){
         binding.edtIdWallet.setText(idWallet)
         binding.edtIdWallet.isEnabled=false
+        binding.tvDate.isEnabled=false
         val transTypeAdapter=TransTypeAdapter(requireContext(),listTransType)
         binding.transTypeSpinner.adapter=transTypeAdapter
     }
@@ -61,12 +62,11 @@ class AddTransactionDialog (val listTransType:List<TransType>, val idWallet:Stri
         val month=c.get(Calendar.MONTH)
         val day=c.get(Calendar.DATE)
 
-
         binding.btnPickDate.setOnClickListener{
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                val datePickerDialog= DatePickerDialog(requireContext(),DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth ->
+                val datePickerDialog= DatePickerDialog(requireContext(),DatePickerDialog.OnDateSetListener { view, year, month, day ->
                     binding.tvDate.setText(""+year+"/"+(month+1)+"/"+day)
-                    c.set(year,(month+1),day)
+                    c.set(year,month,day)
                 },year,month,day)
                 datePickerDialog.show()
             }
@@ -76,7 +76,7 @@ class AddTransactionDialog (val listTransType:List<TransType>, val idWallet:Stri
             var amount=binding.edtEditAmount.text.toString()
             var note=binding.edtEditNote.text.toString().trim()
 
-            if(checkField(amount)){
+            if(checkField(amount,c)){
                 val sharedPreferences=requireActivity().getSharedPreferences("com.example.quanlychitieu",
                     Context.MODE_PRIVATE)
                 val token = sharedPreferences.getString("accountToken",null)
@@ -105,13 +105,17 @@ class AddTransactionDialog (val listTransType:List<TransType>, val idWallet:Stri
         }
     }
 
-    fun checkField(amount:String):Boolean{
+    fun checkField(amount:String,c: Calendar):Boolean{
         if(amount.isEmpty() || amount==""){
             Toast.makeText(context,"Vui lòng nhập số tiền",Toast.LENGTH_SHORT).show()
             return false
         }
         else if(amount.toDouble()<1000 || amount.toDouble() >100000000000){
             Toast.makeText(context,"Số tiền không hợp lệ",Toast.LENGTH_SHORT).show()
+            return false
+        }
+        else if(java.sql.Date(c.timeInMillis) > java.sql.Date(System.currentTimeMillis()) ){
+            Toast.makeText(context,"Không được chọn ngày ở tương lai",Toast.LENGTH_SHORT).show()
             return false
         }
         return true

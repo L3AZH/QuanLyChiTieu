@@ -34,11 +34,6 @@ class ChiTieuAdapter(): RecyclerView.Adapter<ChiTieuAdapter.ChiTieuViewHolder>()
 
     val differ=AsyncListDiffer(this,differCallback)
 
-    private var onLongItemClickListener:((TransInfoResponse) -> Boolean)?=null
-    fun setOnLongItemClickListener(listener:(TransInfoResponse) -> Boolean){
-        onLongItemClickListener=listener
-    }
-
     private var onItemClickListener:((TransInfoResponse) -> Unit)?=null
     fun setOnItemClickListener(listener:(TransInfoResponse) ->Unit){
         onItemClickListener=listener
@@ -47,7 +42,6 @@ class ChiTieuAdapter(): RecyclerView.Adapter<ChiTieuAdapter.ChiTieuViewHolder>()
     override fun onBindViewHolder(holder: ChiTieuAdapter.ChiTieuViewHolder, position: Int) {
         val trans=differ.currentList[position]
         holder.setUpItemClick(trans,onItemClickListener)
-        holder.setUpLongItemClick(trans,onLongItemClickListener)
     }
 
     override fun getItemCount(): Int {
@@ -66,13 +60,6 @@ class ChiTieuAdapter(): RecyclerView.Adapter<ChiTieuAdapter.ChiTieuViewHolder>()
             itemView.setOnClickListener {
                 listener?.let {
                     it(transInfo)
-                }
-            }
-        }
-        fun setUpLongItemClick(transInfo: TransInfoResponse,listener:((TransInfoResponse) -> Boolean)?){
-            itemView.setOnLongClickListener {
-                listener.let {
-                    it?.invoke(transInfo)!!
                 }
             }
         }

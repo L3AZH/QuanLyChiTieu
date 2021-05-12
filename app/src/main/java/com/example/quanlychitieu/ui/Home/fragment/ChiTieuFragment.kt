@@ -50,9 +50,7 @@ class ChiTieuFragment(idWalletIn:String) : Fragment() {
         chiTieuAdapter.setOnItemClickListener {
             setOnItemClick(it)
         }
-        chiTieuAdapter.setOnLongItemClickListener {
-            setOnLongItemClick(it)
-        }
+
         viewModel.allTrans.observe(viewLifecycleOwner, Observer { response->
             chiTieuAdapter.differ.submitList(response)
         })
@@ -65,54 +63,13 @@ class ChiTieuFragment(idWalletIn:String) : Fragment() {
     }
 
     fun setOnItemClick(transInfoResponse: TransInfoResponse){
-        val dateDB=transInfoResponse.date
-        val dateSys=Calendar.getInstance().time
-        //Chỉ cho sửa giao dịch trong ngày
-        if(dateDB.date==dateSys.date && dateDB.month==dateSys.month && dateDB.year==dateSys.year){
-            //
-            println("OK")
-            CoroutineScope(Dispatchers.Default).launch{
-                val transType=viewModel.getListTransTypeFromDB().await()
-                val walletType=viewModel.getListWalletFromDb().await()
-                val dialog=EditTransDialog(transType,walletType,transInfoResponse,idWallet)
-                dialog.show(requireActivity().supportFragmentManager,"Edit transaction")
-                dialog.isCancelable=false
-            }
+        CoroutineScope(Dispatchers.Default).launch{
+            val transType=viewModel.getListTransTypeFromDB().await()
+            val walletType=viewModel.getListWalletFromDb().await()
+            val dialog=EditTransDialog(transType,walletType,transInfoResponse,idWallet)
+            dialog.show(requireActivity().supportFragmentManager,"Edit transaction")
+            dialog.isCancelable=false
         }
-        else{
-            Toast.makeText(activity,"Chỉ được sửa giao dịch trong ngày",Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    fun setOnLongItemClick(transInfoResponse: TransInfoResponse): Boolean {
-        val dateDB=transInfoResponse.date
-        val dateSys=Calendar.getInstance().time
-        //Chỉ cho sửa giao dịch trong ngày
-        if(dateDB.date==dateSys.date && dateDB.month==dateSys.month && dateDB.year==dateSys.year){
-            //
-            println("OK")
-            var dialog=AlertDialog.Builder(activity)
-            dialog.setTitle("Bạn có chắc chắn muốn xóa giao dịch này?")
-            dialog.setPositiveButton("Đúng"){dialog, which->
-                val sharePreference =
-                    requireActivity().getSharedPreferences("com.example.quanlychitieu", Context.MODE_PRIVATE)
-                val token = sharePreference.getString("accountToken", "null")
-                CoroutineScope(Dispatchers.Default).launch {
-                    val result = viewModel.deleteTransaction(token!!, transInfoResponse.idTransaction).await()
-                    dialog.cancel()
-                    Toast.makeText(activity, result[1], Toast.LENGTH_SHORT).show()
-                    viewModel.getAllTransaction(token,idWallet)
-                }
-            }
-            dialog.setNegativeButton("Sai"){dialog, which->
-                dialog.cancel()
-            }
-        }
-        else{
-            Toast.makeText(activity,"Chỉ được sửa giao dịch trong ngày",Toast.LENGTH_SHORT).show()
-            return false
-        }
-        return true
     }
 
     fun setBtnAdd(){
