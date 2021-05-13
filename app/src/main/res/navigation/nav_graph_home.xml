@@ -41,5 +41,6 @@
         android:label="fragment_middle"
         tools:layout="@layout/fragment_middle" >
         <argument android:name="idWallet" />
+        <argument android:name="walletAmount" />
     </fragment>
 </navigation>

@@ -16,6 +16,7 @@ class HomeViewModel(val repository: Repository):ViewModel() {
     var infoUser:MutableLiveData<GetInfoCurrentUserResponseSuccess> = MutableLiveData()
     var listWallet:MutableLiveData<List<WalletInfo>> = MutableLiveData()
     var allTrans: MutableLiveData<List<TransInfoResponse>> = MutableLiveData()
+    var listBudget:MutableLiveData<List<BudgetInfoResponse>> = MutableLiveData()
 
 
     fun getInfoUser(token:String):Deferred<GetInfoCurrentUserResponseSuccess?> = CoroutineScope(Dispatchers.Default).async{
@@ -197,6 +198,16 @@ class HomeViewModel(val repository: Repository):ViewModel() {
                 CreateTransactionSuccessResponse::class.java
             )
             arrayOf(createTransactionResponse.code.toString(),createTransactionResponse.data.message)
+        }
+    }
+
+    fun getAllBudget(token:String,idWallet: String) = CoroutineScope(Dispatchers.Default).async {
+        val response=repository.getAllBudget(token,idWallet)
+        if(response.isSuccessful()){
+            listBudget.postValue(response.body()!!.data.result)
+        }
+        else{
+            listBudget.postValue(null)
         }
     }
 

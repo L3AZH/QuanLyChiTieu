@@ -352,3 +352,32 @@ data class UpdateWalletResponse(
     @SerializedName("flag")
     val flag: Boolean
 )
+
+
+//Budget
+data class GetAllBudgetSuccessResponse(
+    @SerializedName("code")
+    val code:Int,
+    @SerializedName("data")
+    val data:DataGetAllBudgetSuccessResponse,
+    @SerializedName("flag")
+    val flag: Boolean
+)
+
+data class DataGetAllBudgetSuccessResponse(
+    @SerializedName("result")
+    val result:List<BudgetInfoResponse>
+)
+
+data class BudgetInfoResponse(
+    @SerializedName("idBudget")
+    val idBudget:Int,
+    @SerializedName("amountBudget")
+    val amount:Double,
+    @SerializedName("note")
+    val note:String,
+    @SerializedName("date")
+    val date: Date,
+    @SerializedName("WalletIdWallet")
+    val walletIdWallet:Int
+)

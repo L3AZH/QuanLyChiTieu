@@ -27,7 +27,7 @@ import java.lang.IllegalStateException
 import java.sql.Date
 import java.util.*
 
-class AddTransactionDialog (val listTransType:List<TransType>, val idWallet:String) :DialogFragment(){
+class AddTransactionDialog (val listTransType:List<TransType>, val idWallet:String, var walletAmount:String) :DialogFragment(){
     lateinit var binding: DialogAddTransactionBinding
     lateinit var viewModel: HomeViewModel
     var yearSelected:Int = 0

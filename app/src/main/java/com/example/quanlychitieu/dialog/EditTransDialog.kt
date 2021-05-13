@@ -35,7 +35,7 @@ import java.lang.IllegalStateException
 import java.util.*
 
 class EditTransDialog (val listTransType: List<TransType>?, val listWalletType:List<WalletType>?,
-                       var transInfoResponse: TransInfoResponse, val idWallet:String) : DialogFragment(){
+                       var transInfoResponse: TransInfoResponse, val idWallet:String, var walletAmount:String) : DialogFragment(){
     lateinit var binding:DialogSuaGiaoDichBinding
     lateinit var viewModel: HomeViewModel
 

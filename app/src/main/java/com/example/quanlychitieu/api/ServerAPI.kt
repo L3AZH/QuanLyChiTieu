@@ -72,4 +72,9 @@ interface ServerAPI {
         @Body amount: UpdateWalletRequest
     ): Response<UpdateWalletResponse>
 
+    @GET("account/wallet/budget/all-budget/{idWallet}")
+    suspend fun getAllBudget(
+        @Header("Authorization") token:String,
+        @Path("idWallet")idWallet:String
+    ):Response<GetAllBudgetSuccessResponse>
 }

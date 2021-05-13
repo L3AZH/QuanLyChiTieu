@@ -73,6 +73,7 @@ class ViFragment : Fragment() {
         Toast.makeText(context, "itemclick "+walletInfo.idWallet, Toast.LENGTH_SHORT).show()
         val bundle = Bundle().apply {
             putSerializable("idWallet",walletInfo.idWallet)
+            putSerializable("walletAmount",walletInfo.amount)
         }
         println("ID Ví fragment: "+walletInfo.idWallet)
         findNavController().navigate(

@@ -12,11 +12,12 @@ import com.example.quanlychitieu.ui.Home.fragment.BudgetFragment
 import com.example.quanlychitieu.ui.Home.fragment.ChiTieuFragment
 
 
-class ViewPagerAdapter(fragmentManager: FragmentManager,lifecycle: Lifecycle,idWallet:String)
+class ViewPagerAdapter(fragmentManager: FragmentManager,lifecycle: Lifecycle,idWallet:String,walletAmount:String)
     : FragmentStateAdapter(fragmentManager,lifecycle)
 {
     val num_items=2
     val idWallet=idWallet
+    var walletAmount=walletAmount
 
     override fun getItemCount():Int{
         return num_items
@@ -25,10 +26,10 @@ class ViewPagerAdapter(fragmentManager: FragmentManager,lifecycle: Lifecycle,idW
     override fun createFragment(position: Int): Fragment {
         return when(position){
             1->{
-                BudgetFragment()
+                BudgetFragment(idWallet)
             }
             else->{
-                ChiTieuFragment(idWallet)
+                ChiTieuFragment(idWallet,walletAmount)
                 
             }
         }
