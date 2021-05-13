@@ -26,11 +26,12 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.*
 
-class ChiTieuFragment(idWalletIn:String) : Fragment() {
+class ChiTieuFragment(idWalletIn:String,walletAmount:String) : Fragment() {
     lateinit var binding: FragmentChiTieuBinding
     lateinit var chiTieuAdapter: ChiTieuAdapter
     lateinit var viewModel:HomeViewModel
     var idWallet:String=idWalletIn
+    var walletAmount:String=walletAmount
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,7 +67,7 @@ class ChiTieuFragment(idWalletIn:String) : Fragment() {
         CoroutineScope(Dispatchers.Default).launch{
             val transType=viewModel.getListTransTypeFromDB().await()
             val walletType=viewModel.getListWalletFromDb().await()
-            val dialog=EditTransDialog(transType,walletType,transInfoResponse,idWallet)
+            val dialog=EditTransDialog(transType,walletType,transInfoResponse,idWallet,walletAmount)
             dialog.show(requireActivity().supportFragmentManager,"Edit transaction")
             dialog.isCancelable=false
         }
@@ -76,7 +77,7 @@ class ChiTieuFragment(idWalletIn:String) : Fragment() {
         binding.btnAddTrans.setOnClickListener {
             CoroutineScope(Dispatchers.Default).async{
                 var transType=viewModel.getListTransTypeFromDB().await()
-                var dialog=AddTransactionDialog(transType!!,idWallet)
+                var dialog=AddTransactionDialog(transType!!,idWallet,walletAmount)
                 dialog.show(requireActivity().supportFragmentManager,"Add transaction")
                 dialog.isCancelable = false
             }

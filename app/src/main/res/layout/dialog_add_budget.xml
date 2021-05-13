@@ -1,59 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="ID giao dịch: "
-                android:layout_marginLeft="10dp"/>
-            <EditText
-                android:id="@+id/edtEditID"
-                android:layout_width="220dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:layout_gravity="center_vertical"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp">
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="ID ví: "
-                android:layout_marginLeft="10dp"/>
-            <EditText
-                android:id="@+id/edtIdWallet"
-                android:layout_width="220dp"
-                android:layout_height="40dp"
-                android:layout_marginRight="15dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="Loại giao dịch: "
-                android:layout_marginLeft="10dp"/>
-            <Spinner
-                android:id="@+id/transTypeSpinner"
-                android:layout_width="220dp"
-                android:layout_height="40dp"
-                android:layout_marginRight="15dp"/>
-        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -65,7 +15,7 @@
                 android:text="Số tiền: "
                 android:layout_marginLeft="10dp"/>
             <EditText
-                android:id="@+id/edtEditAmount"
+                android:id="@+id/edtAddAmount"
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
@@ -81,14 +31,19 @@
                 android:textSize="20sp"
                 android:text="Ngày: "
                 android:layout_marginLeft="10dp"/>
-
+            <Button
+                android:id="@+id/btnPickDate"
+                android:layout_width="75dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/humanskin"
+                android:text="Pick"/>
             <EditText
-                android:id="@+id/edtDate"
-                android:layout_width="220dp"
+                android:id="@+id/tvDate"
+                android:layout_width="135dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:textSize="20sp"
-                android:lines="3"/>
+                android:textSize="20sp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,7 +56,7 @@
                 android:text="Ghi chú: "
                 android:layout_marginLeft="10dp"/>
             <EditText
-                android:id="@+id/edtEditNote"
+                android:id="@+id/edtAddNote"
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"/>
@@ -112,27 +67,17 @@
             android:layout_gravity="end">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnEdtTrans"
+                android:id="@+id/btnSaveBudget"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:layout_gravity="end"
                 android:background="@drawable/custom_shape_btn_3"
-                android:text="Edit"
+                android:text="Save"
                 android:textColor="@color/white"/>
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnDeleteTrans"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:layout_gravity="end"
-                android:background="@drawable/custom_shape_btn_3"
-                android:text="Xóa"
-                android:textColor="@color/white"/>
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnEdtCancel"
+                android:id="@+id/btnCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -142,6 +87,5 @@
                 android:text="Cancel"
                 android:textColor="@color/white"/>
         </LinearLayout>
-
     </LinearLayout>
 </layout>

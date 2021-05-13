@@ -13,10 +13,10 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:text="ID giao dịch: "
+                android:text="ID budget: "
                 android:layout_marginLeft="10dp"/>
             <EditText
-                android:id="@+id/edtEditID"
+                android:id="@+id/edtEditIDBudget"
                 android:layout_width="220dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="15dp"
@@ -38,22 +38,7 @@
                 android:layout_height="40dp"
                 android:layout_marginRight="15dp"/>
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:text="Loại giao dịch: "
-                android:layout_marginLeft="10dp"/>
-            <Spinner
-                android:id="@+id/transTypeSpinner"
-                android:layout_width="220dp"
-                android:layout_height="40dp"
-                android:layout_marginRight="15dp"/>
-        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -82,13 +67,19 @@
                 android:text="Ngày: "
                 android:layout_marginLeft="10dp"/>
 
+            <Button
+                android:id="@+id/btnPickDate"
+                android:layout_width="75dp"
+                android:layout_height="40dp"
+                android:backgroundTint="@color/humanskin"
+                android:text="Pick"/>
             <EditText
-                android:id="@+id/edtDate"
-                android:layout_width="220dp"
+                android:id="@+id/tvDate"
+                android:layout_width="135dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:textSize="20sp"
-                android:lines="3"/>
+                android:textSize="20sp"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

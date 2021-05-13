@@ -35,7 +35,7 @@ import java.lang.IllegalStateException
 import java.util.*
 
 class EditTransDialog (val listTransType: List<TransType>?, val listWalletType:List<WalletType>?,
-                       var transInfoResponse: TransInfoResponse, val idWallet:String) : DialogFragment(){
+                       var transInfoResponse: TransInfoResponse, val idWallet:String, var walletAmount:String) : DialogFragment(){
     lateinit var binding:DialogSuaGiaoDichBinding
     lateinit var viewModel: HomeViewModel
 
@@ -46,7 +46,7 @@ class EditTransDialog (val listTransType: List<TransType>?, val listWalletType:L
             binding=DataBindingUtil.inflate(inflater, R.layout.dialog_sua_giao_dich,null,false)
             viewModel=(requireActivity() as HomeActivity).homeViewModel
             loadDetail()
-            setButtonEdit()
+            setButton()
             builder.setView(binding.root)
             builder.create()
         }?: throw IllegalStateException("Activity must not empty")
@@ -73,7 +73,7 @@ class EditTransDialog (val listTransType: List<TransType>?, val listWalletType:L
         binding.edtEditNote.setText(transInfoResponse.note)
     }
 
-    fun setButtonEdit(){
+    fun setButton(){
         binding.btnEdtTrans.setOnClickListener{
             val sharedPreferences=requireActivity().getSharedPreferences("com.example.quanlychitieu",Context.MODE_PRIVATE)
             val token = sharedPreferences.getString("accountToken",null)

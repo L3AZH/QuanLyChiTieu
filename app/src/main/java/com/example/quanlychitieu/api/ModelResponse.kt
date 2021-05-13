@@ -352,3 +352,74 @@ data class UpdateWalletResponse(
     @SerializedName("flag")
     val flag: Boolean
 )
+
+
+//Budget
+data class GetAllBudgetSuccessResponse(
+    @SerializedName("code")
+    val code:Int,
+    @SerializedName("data")
+    val data:DataGetAllBudgetSuccessResponse,
+    @SerializedName("flag")
+    val flag: Boolean
+)
+
+data class DataGetAllBudgetSuccessResponse(
+    @SerializedName("result")
+    val result:List<BudgetInfoResponse>
+)
+
+data class BudgetInfoResponse(
+    @SerializedName("idBudget")
+    val idBudget:Int,
+    @SerializedName("amountBudget")
+    val amount:Double,
+    @SerializedName("note")
+    val note:String,
+    @SerializedName("date")
+    val date: Date,
+    @SerializedName("WalletIdWallet")
+    val walletIdWallet:Int
+)
+
+data class CreateBudgetSuccessResponse(
+    @SerializedName("code")
+    val code:Int,
+    @SerializedName("data")
+    val data: CreateBudgetDataSuccessResponse,
+    @SerializedName("flag")
+    val flag:Boolean
+)
+
+data class CreateBudgetDataSuccessResponse(
+    @SerializedName("message")
+    val message:String
+)
+
+data class UpdateBudgetSuccessResponse(
+    @SerializedName("code")
+    val code:Int,
+    @SerializedName("data")
+    val data: UpdateBudgetDataSuccessResponse,
+    @SerializedName("flag")
+    val flag:Boolean
+)
+
+data class UpdateBudgetDataSuccessResponse(
+    @SerializedName("message")
+    val message:String
+)
+
+data class DeleteBudgetResponse(
+    @SerializedName("code")
+    val code:Int,
+    @SerializedName("data")
+    val data:DataDeleteBudgetResponse,
+    @SerializedName("flag")
+    val flag: Boolean
+)
+
+data class DataDeleteBudgetResponse(
+    @SerializedName("message")
+    val message: String
+)

@@ -16,6 +16,7 @@ class HomeViewModel(val repository: Repository):ViewModel() {
     var infoUser:MutableLiveData<GetInfoCurrentUserResponseSuccess> = MutableLiveData()
     var listWallet:MutableLiveData<List<WalletInfo>> = MutableLiveData()
     var allTrans: MutableLiveData<List<TransInfoResponse>> = MutableLiveData()
+    var listBudget:MutableLiveData<List<BudgetInfoResponse>> = MutableLiveData()
 
 
     fun getInfoUser(token:String):Deferred<GetInfoCurrentUserResponseSuccess?> = CoroutineScope(Dispatchers.Default).async{
@@ -200,4 +201,61 @@ class HomeViewModel(val repository: Repository):ViewModel() {
         }
     }
 
+    fun getAllBudget(token:String,idWallet: String) = CoroutineScope(Dispatchers.Default).async {
+        val response=repository.getAllBudget(token,idWallet)
+        if(response.isSuccessful()){
+            listBudget.postValue(response.body()!!.data.result)
+        }
+        else{
+            listBudget.postValue(null)
+        }
+    }
+
+    fun createBudget(token:String, createBudgetRequest: CreateBudgetRequest):Deferred<Array<String>> = CoroutineScope(Dispatchers.Default).async{
+        val result=repository.createBudget(token,createBudgetRequest)
+        if(result.isSuccessful){
+            val response = result.body()!!
+            arrayOf(response.code.toString(),response.data.message)
+        }
+        else{
+            val gson = Gson()
+            val createBudgetInfoResponse = gson.fromJson(
+                result.errorBody()!!.string(),
+                CreateBudgetSuccessResponse::class.java
+            )
+            arrayOf(createBudgetInfoResponse.code.toString(),createBudgetInfoResponse.data.message)
+        }
+    }
+
+    fun updateBudget(token:String,idBudget:Int, updateBudgetRequest: UpdateBudgetRequest):Deferred<Array<String>> = CoroutineScope(Dispatchers.Default).async{
+        val result=repository.updateBudget(token,idBudget,updateBudgetRequest)
+        if(result.isSuccessful){
+            val response = result.body()!!
+            arrayOf(response.code.toString(),response.data.message)
+        }
+        else{
+            val gson = Gson()
+            val updateBudgetSuccessResponse = gson.fromJson(
+                result.errorBody()!!.string(),
+                UpdateBudgetSuccessResponse::class.java
+            )
+            arrayOf(updateBudgetSuccessResponse.code.toString(),updateBudgetSuccessResponse.data.message)
+        }
+    }
+
+    fun deleteBudget(token:String, idBudget: Int):Deferred<Array<String>> = CoroutineScope(Dispatchers.Default).async {
+        val result=repository.deleteBudget(token,idBudget)
+        if(result.isSuccessful){
+            val response = result.body()!!
+            arrayOf(response.code.toString(),response.data.message)
+        }
+        else{
+            val gson = Gson()
+            val deleteBudgetResponse = gson.fromJson(
+                result.errorBody()!!.string(),
+                DeleteBudgetResponse::class.java
+            )
+            arrayOf(deleteBudgetResponse.code.toString(),deleteBudgetResponse.data.message)
+        }
+    }
 }
