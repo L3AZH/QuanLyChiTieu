@@ -30,9 +30,6 @@ import java.util.*
 class AddTransactionDialog (val listTransType:List<TransType>, val idWallet:String, var walletAmount:String) :DialogFragment(){
     lateinit var binding: DialogAddTransactionBinding
     lateinit var viewModel: HomeViewModel
-    var yearSelected:Int = 0
-    var monthSelected:Int=0
-    var daySelected:Int=0
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -89,9 +86,6 @@ class AddTransactionDialog (val listTransType:List<TransType>, val idWallet:Stri
                     println(result)
                     if(result[0].equals("200")){
                         viewModel.getAllTransaction(token,idWallet)
-                        daySelected=0
-                        monthSelected=0
-                        yearSelected=0
                         dialog?.cancel()
                     }
                     else{
@@ -100,7 +94,7 @@ class AddTransactionDialog (val listTransType:List<TransType>, val idWallet:Stri
                 }
             }
         }
-        binding.btnEdtCancel.setOnClickListener {
+        binding.btnCancel.setOnClickListener {
             dialog?.cancel()
         }
     }

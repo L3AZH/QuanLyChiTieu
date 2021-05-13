@@ -47,3 +47,16 @@ data class CreateTransactionRequest(
     val note:String,
     val date:Date
 )
+
+data class CreateBudgetRequest(
+    val idWallet:Int,
+    val amount:Double,
+    val note:String,
+    val date:Date
+)
+
+data class UpdateBudgetRequest(
+    val amount:Double,
+    val note:String,
+    val date:Date
+)

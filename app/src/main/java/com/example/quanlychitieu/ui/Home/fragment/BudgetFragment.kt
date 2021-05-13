@@ -12,8 +12,11 @@ import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.quanlychitieu.R
 import com.example.quanlychitieu.adapter.BudgetAdapter
+import com.example.quanlychitieu.api.BudgetInfoResponse
 import com.example.quanlychitieu.databinding.FragmentBudgetBinding
 import com.example.quanlychitieu.databinding.ItemBudgetRecyclerviewBinding
+import com.example.quanlychitieu.dialog.AddBudgetDialog
+import com.example.quanlychitieu.dialog.EditBudgetDialog
 import com.example.quanlychitieu.ui.Home.HomeActivity
 import com.example.quanlychitieu.ui.Home.HomeViewModel
 
@@ -34,9 +37,13 @@ class BudgetFragment(idWalletIn:String) : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setButtonAdd()
         adapter= BudgetAdapter()
         binding.rvBudget.layoutManager= LinearLayoutManager(activity)
         binding.rvBudget.adapter=adapter
+        adapter.setOnItemClickListener {
+            setOnItemClick(it)
+        }
         viewModel.listBudget.observe(viewLifecycleOwner, Observer{ response->
             adapter.differ.submitList(response)
         })
@@ -46,5 +53,19 @@ class BudgetFragment(idWalletIn:String) : Fragment() {
         val token = sharedPreference.getString("accountToken", "null")
         viewModel.getAllBudget(token!!,idWallet)
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    fun setOnItemClick(budgetInfoResponse: BudgetInfoResponse){
+        val dialog=EditBudgetDialog(budgetInfoResponse)
+        dialog.show(requireActivity().supportFragmentManager,"Edit budget")
+        dialog.isCancelable=false
+    }
+
+    fun setButtonAdd(){
+        binding.btnAddBudget.setOnClickListener {
+            val dialog=AddBudgetDialog(idWallet)
+            dialog.show(requireActivity().supportFragmentManager,"Add budget")
+            dialog.isCancelable=false
+        }
     }
 }

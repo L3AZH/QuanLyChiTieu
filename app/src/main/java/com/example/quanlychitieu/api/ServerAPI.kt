@@ -77,4 +77,23 @@ interface ServerAPI {
         @Header("Authorization") token:String,
         @Path("idWallet")idWallet:String
     ):Response<GetAllBudgetSuccessResponse>
+
+    @POST("account/wallet/budget/create-budget")
+    suspend fun createBudget(
+        @Header("Authorization") token:String,
+        @Body createBudgetRequest: CreateBudgetRequest
+    ):Response<CreateBudgetSuccessResponse>
+
+    @PUT("account/wallet/budget/update-budget/{idBudget}")
+    suspend fun updateBudget(
+        @Header("Authorization") token:String,
+        @Path("idBudget")idBudget:Int,
+        @Body updateBudgetRequest: UpdateBudgetRequest
+    ):Response<UpdateBudgetSuccessResponse>
+
+    @DELETE("account/wallet/budget/delete-budget/{idBudget}")
+    suspend fun deleteBudget(
+        @Header("Authorization") token:String,
+        @Path("idBudget") idBudget: Int
+    ):Response<DeleteBudgetResponse>
 }

@@ -211,4 +211,51 @@ class HomeViewModel(val repository: Repository):ViewModel() {
         }
     }
 
+    fun createBudget(token:String, createBudgetRequest: CreateBudgetRequest):Deferred<Array<String>> = CoroutineScope(Dispatchers.Default).async{
+        val result=repository.createBudget(token,createBudgetRequest)
+        if(result.isSuccessful){
+            val response = result.body()!!
+            arrayOf(response.code.toString(),response.data.message)
+        }
+        else{
+            val gson = Gson()
+            val createBudgetInfoResponse = gson.fromJson(
+                result.errorBody()!!.string(),
+                CreateBudgetSuccessResponse::class.java
+            )
+            arrayOf(createBudgetInfoResponse.code.toString(),createBudgetInfoResponse.data.message)
+        }
+    }
+
+    fun updateBudget(token:String,idBudget:Int, updateBudgetRequest: UpdateBudgetRequest):Deferred<Array<String>> = CoroutineScope(Dispatchers.Default).async{
+        val result=repository.updateBudget(token,idBudget,updateBudgetRequest)
+        if(result.isSuccessful){
+            val response = result.body()!!
+            arrayOf(response.code.toString(),response.data.message)
+        }
+        else{
+            val gson = Gson()
+            val updateBudgetSuccessResponse = gson.fromJson(
+                result.errorBody()!!.string(),
+                UpdateBudgetSuccessResponse::class.java
+            )
+            arrayOf(updateBudgetSuccessResponse.code.toString(),updateBudgetSuccessResponse.data.message)
+        }
+    }
+
+    fun deleteBudget(token:String, idBudget: Int):Deferred<Array<String>> = CoroutineScope(Dispatchers.Default).async {
+        val result=repository.deleteBudget(token,idBudget)
+        if(result.isSuccessful){
+            val response = result.body()!!
+            arrayOf(response.code.toString(),response.data.message)
+        }
+        else{
+            val gson = Gson()
+            val deleteBudgetResponse = gson.fromJson(
+                result.errorBody()!!.string(),
+                DeleteBudgetResponse::class.java
+            )
+            arrayOf(deleteBudgetResponse.code.toString(),deleteBudgetResponse.data.message)
+        }
+    }
 }
