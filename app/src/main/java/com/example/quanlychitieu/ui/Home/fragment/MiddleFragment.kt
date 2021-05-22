@@ -14,8 +14,8 @@ import com.example.quanlychitieu.databinding.FragmentMiddleBinding
 import com.google.android.material.tabs.TabLayoutMediator
 
 class MiddleFragment : Fragment() {
-    lateinit var binding:FragmentMiddleBinding
-    val args:MiddleFragmentArgs by navArgs()
+    lateinit var binding: FragmentMiddleBinding
+    val args: MiddleFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,11 +26,19 @@ class MiddleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding=DataBindingUtil.inflate(inflater,R.layout.fragment_middle,container,false)
-        val adapter=ViewPagerAdapter(parentFragmentManager,lifecycle,args.idWallet,args.walletAmount)
-        binding.viewPager.adapter=adapter
-        TabLayoutMediator(binding.tabLayout,binding.viewPager){tab,position->
-            tab.text = "Tab ${position+1}"
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_middle, container, false)
+        val adapter =
+            ViewPagerAdapter(parentFragmentManager, lifecycle, args.idWallet, args.walletAmount)
+        binding.viewPager.adapter = adapter
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            when (position) {
+                0 -> {
+                    tab.text = "Giao dịch"
+                }
+                1 -> {
+                    tab.text = "Kế hoạch"
+                }
+            }
 
         }.attach()
         return binding.root
