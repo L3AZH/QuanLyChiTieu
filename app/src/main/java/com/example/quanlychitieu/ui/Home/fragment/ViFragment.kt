@@ -44,7 +44,7 @@ class ViFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpRecycleView()
-        setOnclickAddWalletFloatingBtn()
+        //setOnclickAddWalletFloatingBtn()
 
     }
 
@@ -99,7 +99,7 @@ class ViFragment : Fragment() {
         updateDialog.show(requireActivity().supportFragmentManager,"Update Wallet Dialog")
         updateDialog.isCancelable = false
     }
-    fun setOnclickAddWalletFloatingBtn(){
+    /*fun setOnclickAddWalletFloatingBtn(){
         CoroutineScope(Dispatchers.Default).launch {
             val listWalletType = viewModel.getListWalletFromDb().await()
             binding.addWalletFloatingActionButton.setOnClickListener {
@@ -113,5 +113,5 @@ class ViFragment : Fragment() {
                 }
             }
         }
-    }
+    }*/
 }

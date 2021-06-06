@@ -25,10 +25,6 @@ class MainActivity : AppCompatActivity() {
             getSharedPreferences("com.example.quanlychitieu", Context.MODE_PRIVATE)
         val token = sharePreference.getString("accountToken", "")
         CoroutineScope(Dispatchers.Default).launch {
-//            val gotoLoginAndRegisterActivity =
-//                Intent(this@MainActivity, LoginAndRegisterActivity::class.java)
-//            delay(2000)
-//            startActivity(gotoLoginAndRegisterActivity)
             if (token.isNullOrBlank()) {
                 val gotoLoginAndRegisterActivity =
                     Intent(this@MainActivity, LoginAndRegisterActivity::class.java)

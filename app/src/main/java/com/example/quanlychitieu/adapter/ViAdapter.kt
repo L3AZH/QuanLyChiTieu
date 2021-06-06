@@ -1,5 +1,6 @@
 package com.example.quanlychitieu.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -60,6 +61,7 @@ class ViAdapter() : RecyclerView.Adapter<ViAdapter.ViViewHolder>() {
 
     inner class ViViewHolder(val binding: ItemWalletRecycleviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun setUpBinding(
             walletInfo: WalletInfo,
             listenerItemClick: ((WalletInfo) -> Unit)?,
@@ -69,7 +71,7 @@ class ViAdapter() : RecyclerView.Adapter<ViAdapter.ViViewHolder>() {
             binding.idWalletTextView.text = "Id Wallet: " + walletInfo.idWallet
             binding.accountEmailTextView.text = "Account Email: " + walletInfo.accountEmail
             binding.amountWalletTextView.text = "Amount: " + walletInfo.amount
-            binding.typeWalletTextView.text = "Type: " + walletInfo.type
+            binding.typeWalletTextView.text = walletInfo.type
             binding.editWalletBtn.setOnClickListener {
                 listenerEditItemClick?.let {
                     it(walletInfo)
@@ -86,5 +88,6 @@ class ViAdapter() : RecyclerView.Adapter<ViAdapter.ViViewHolder>() {
                 }
             }
         }
+
     }
 }
