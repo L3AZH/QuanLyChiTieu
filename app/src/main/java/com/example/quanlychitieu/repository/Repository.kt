@@ -1,10 +1,11 @@
 package com.example.quanlychitieu.repository
 
+import androidx.lifecycle.LiveData
 import com.example.quanlychitieu.api.*
 import com.example.quanlychitieu.db.DbDAO
+import com.example.quanlychitieu.db.modeldb.BudgetRequestCodeIntent
 import com.example.quanlychitieu.db.modeldb.TransType
 import com.example.quanlychitieu.db.modeldb.WalletType
-import retrofit2.Response
 
 class Repository(val dbDAO: DbDAO) {
     /*
@@ -62,6 +63,19 @@ class Repository(val dbDAO: DbDAO) {
 
     suspend fun getListTransTypeFromDB():List<TransType>{
         return dbDAO.getListTransTypeFromDatabase()
+    }
+
+    suspend fun insertBugetRequestCode(budgetRequestCode: BudgetRequestCodeIntent){
+        return dbDAO.insertBudgetRequestCode(budgetRequestCode)
+    }
+    suspend fun deleteBugetRequestCode(budgetRequestCode: BudgetRequestCodeIntent){
+        return dbDAO.deteleBudgetRequestCode(budgetRequestCode)
+    }
+    suspend fun updateBugetRequestCode(budgetRequestCode: BudgetRequestCodeIntent){
+        return dbDAO.updateBudgetRequestCode(budgetRequestCode)
+    }
+    fun getAllBugetRequestCode(): LiveData<List<BudgetRequestCodeIntent>> {
+        return dbDAO.getAllBudgetRequestCode()
     }
 
 }

@@ -7,8 +7,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.quanlychitieu.db.modeldb.TransType
 import com.example.quanlychitieu.db.modeldb.WalletType
+import com.example.quanlychitieu.db.modeldb.BudgetRequestCodeIntent
 
-@Database(entities = [WalletType::class, TransType::class],version = 3)
+@Database(entities = [WalletType::class, TransType::class, BudgetRequestCodeIntent::class],version = 4)
 abstract class DatabaseInstance:RoomDatabase() {
     abstract fun getDbDao():DbDAO
 

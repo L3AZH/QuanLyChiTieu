@@ -1,19 +1,25 @@
 package com.example.quanlychitieu.dialog
 
-import android.app.AlertDialog
-import android.app.DatePickerDialog
-import android.app.Dialog
+import android.app.*
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
+import android.text.format.DateFormat
+import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.example.quanlychitieu.R
 import com.example.quanlychitieu.api.CreateBudgetRequest
 import com.example.quanlychitieu.databinding.DialogAddBudgetBinding
+import com.example.quanlychitieu.db.modeldb.BudgetRequestCodeIntent
+import com.example.quanlychitieu.receiver.AlertReceiver
 import com.example.quanlychitieu.ui.Home.HomeActivity
 import com.example.quanlychitieu.ui.Home.HomeViewModel
+import com.example.quanlychitieu.util.Constant
+import com.example.quanlychitieu.util.RandomIntUtil
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -64,6 +70,86 @@ class AddBudgetDialog (val idWallet:String): DialogFragment() {
                     val result=viewModel.createBudget(token!!,budgetRequest).await()
                     if(result[0]=="200"){
                         viewModel.getAllBudget(token,idWallet)
+                        /**
+                        Tuan anh them vao phan notification sau khi add thanh cong budget
+                         */
+                        val currentDay =
+                            DateFormat.format("dd/MM/yyyy HH:mm", Calendar.getInstance().time).toString()
+                        val setDay = DateFormat.format("dd/MM/yyyy HH:mm", budgetRequest.date.time).toString()
+                        Log.i("MyTime", "currentDay " + currentDay + " -------Set Day: " + setDay)
+                        val diff = viewModel.caculateDiffTime(currentDay, setDay)
+                        val alarmManager =
+                            requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                        val intent = Intent(context, AlertReceiver::class.java)
+                        intent.action = Constant.ACTION_SET_EXACT_ALARM // set daily default
+                        val actionIntentType = intent.action
+                        intent.putExtra(Constant.EXTRA_TITLE, "Note: "+budgetRequest.note + "\nDay:"+ setDay)
+                        intent.putExtra(
+                            Constant.EXTRA_DECRIPTION,
+                            budgetRequest.amount.toString()
+                        )
+                        val getRequestCodePendingIntent = RandomIntUtil.getRandom()
+                        intent.putExtra(Constant.EXTRA_REQUESTCODE_PENDING, getRequestCodePendingIntent)
+                        /*
+                        * pendingrequestcode phải khác nhau để định danh các báo thức ko là sẽ bị ghi chồng báo thức
+                        * */
+                        val pendingIntent = PendingIntent.getBroadcast(
+                            context,
+                            getRequestCodePendingIntent,
+                            intent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                        )
+                        /*
+                        *  believe the error is here:
+
+                alarm.SetExact(int type, long triggerAtMillis, PendingIntent operation);
+                triggerAtMillis: time in milliseconds that the alarm should go off, using the appropriate clock (depending on the alarm type).
+
+                So, your are using 1800000 as triggerAtMillis. However, 1800000 is following date in UTC: Thu Jan 01 1970 00:30:00
+
+                Since this is an old date, the alarm is fired immediately.
+
+                Solution
+
+                Maybe, you should update your code as follows:
+
+                In MainActivity, I believe that you want to fire the alarm immediately. So, create it as follows:
+
+                alarm.SetExact(AlarmType.RtcWakeup, Calendar.getInstance().getTimeInMillis(), pending);
+                In your service, it seems that you want to trigger your alarm after 1800000. So, you have to use:
+
+                alarm.SetExact(AlarmType.RtcWakeup, Calendar.getInstance().getTimeInMillis() + LOCATION_INTERVAL, pending);
+                This way, alarm will be fired 30 minutes after current time (current time + LOCATION_INTERVAL).
+
+                Keep in mind that second parameter is the date in milliseconds... It is a number which represents an whole date (and not only an interval)...
+                        * */
+                        alarmManager?.let {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                // sử dụng dozen mode, google android doc => báo khi đã bật tiết kiệm pin
+                                it.setExactAndAllowWhileIdle(
+                                    AlarmManager.RTC_WAKEUP,
+                                    Calendar.getInstance().timeInMillis + diff!!,
+                                    pendingIntent
+                                )
+                            } else {
+                                alarmManager.setExact(
+                                    AlarmManager.RTC_WAKEUP,
+                                    Calendar.getInstance().timeInMillis + diff!!,
+                                    pendingIntent
+                                )
+                            }
+                        }
+                        viewModel.createBudgetRequestCode(
+                            BudgetRequestCodeIntent(
+                                0,
+                                budgetRequest.note,
+                                budgetRequest.amount.toString(),
+                                "00:00",
+                                setDay,
+                                getRequestCodePendingIntent,
+                                actionIntentType!!
+                            )
+                        )
                         dialog?.cancel()
                     }
                     else{

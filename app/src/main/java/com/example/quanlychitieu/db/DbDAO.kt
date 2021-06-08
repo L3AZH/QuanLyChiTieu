@@ -1,9 +1,8 @@
 package com.example.quanlychitieu.db
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.lifecycle.LiveData
+import androidx.room.*
+import com.example.quanlychitieu.db.modeldb.BudgetRequestCodeIntent
 import com.example.quanlychitieu.db.modeldb.TransType
 import com.example.quanlychitieu.db.modeldb.WalletType
 
@@ -18,4 +17,13 @@ interface DbDAO {
     suspend fun getListTransTypeFromDatabase():List<TransType>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertListTransType(transType: TransType)
+
+    @Insert
+    suspend fun insertBudgetRequestCode(budgetRequestCode: BudgetRequestCodeIntent)
+    @Delete
+    suspend fun deteleBudgetRequestCode(budgetRequestCode: BudgetRequestCodeIntent)
+    @Update
+    suspend fun updateBudgetRequestCode(budgetRequestCode: BudgetRequestCodeIntent)
+    @Query("select * from BudgetRequestCodeTable")
+    fun getAllBudgetRequestCode(): LiveData<List<BudgetRequestCodeIntent>>
 }

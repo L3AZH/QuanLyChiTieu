@@ -5,11 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.quanlychitieu.api.*
+import com.example.quanlychitieu.db.modeldb.BudgetRequestCodeIntent
 import com.example.quanlychitieu.db.modeldb.TransType
 import com.example.quanlychitieu.db.modeldb.WalletType
 import com.example.quanlychitieu.repository.Repository
 import com.google.gson.Gson
 import kotlinx.coroutines.*
+import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
 
 class HomeViewModel(val repository: Repository):ViewModel() {
 
@@ -227,6 +231,10 @@ class HomeViewModel(val repository: Repository):ViewModel() {
         }
     }
 
+    fun createBudgetRequestCode(budgetRequestCodeIntent: BudgetRequestCodeIntent) = CoroutineScope(Dispatchers.Default).launch{
+        repository.insertBugetRequestCode(budgetRequestCodeIntent)
+    }
+
     fun updateBudget(token:String,idBudget:Int, updateBudgetRequest: UpdateBudgetRequest):Deferred<Array<String>> = CoroutineScope(Dispatchers.Default).async{
         val result=repository.updateBudget(token,idBudget,updateBudgetRequest)
         if(result.isSuccessful){
@@ -257,5 +265,23 @@ class HomeViewModel(val repository: Repository):ViewModel() {
             )
             arrayOf(deleteBudgetResponse.code.toString(),deleteBudgetResponse.data.message)
         }
+    }
+
+    fun caculateDiffTime(dateOld: String, dateNew: String): Long? {
+        try {
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm")
+            val dateOldDate: Date = dateFormat.parse(dateOld)
+            val dateNewDate: Date = dateFormat.parse(dateNew)
+            val diff: Long = dateNewDate.time - dateOldDate.time
+            val seconds = diff / 1000
+            val minutes = diff / 60
+            val hours = diff / 60
+            val days = diff / 24
+            Log.i("MyTime: ", "result: " + diff.toString());
+            return diff
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return null
     }
 }
