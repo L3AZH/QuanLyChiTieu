@@ -1,8 +1,6 @@
 package com.example.quanlychitieu.adapter
 
-import android.text.Layout
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -10,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.quanlychitieu.R
 import com.example.quanlychitieu.api.BudgetInfoResponse
-import com.example.quanlychitieu.api.TransInfoResponse
 import com.example.quanlychitieu.databinding.ItemBudgetRecyclerviewBinding
 
 class BudgetAdapter(): RecyclerView.Adapter<BudgetAdapter.BudgetAdapterViewHolder> (){
@@ -55,15 +52,15 @@ class BudgetAdapter(): RecyclerView.Adapter<BudgetAdapter.BudgetAdapterViewHolde
     }
 
     inner class BudgetAdapterViewHolder(val binding:ItemBudgetRecyclerviewBinding): RecyclerView.ViewHolder(binding.root){
-        fun setUpItemClick(budgetInfoRespone:BudgetInfoResponse,listener: ((BudgetInfoResponse) -> Unit)?){
-            binding.tvIdBudget.text="ID: "+budgetInfoRespone.idBudget.toString()
-            binding.tvAmount.text="Aount: "+budgetInfoRespone.amount.toString()
-            binding.tvNote.text="Note: "+budgetInfoRespone.note.toString()
-            binding.tvDate.text="Date: "+budgetInfoRespone.date.toString()
-            binding.tvIDWallet.text="ID ví: "+budgetInfoRespone.walletIdWallet.toString()
+        fun setUpItemClick(budgetInfoResponse:BudgetInfoResponse, listener: ((BudgetInfoResponse) -> Unit)?){
+            binding.tvIdBudget.text="ID: "+budgetInfoResponse.idBudget.toString()
+            binding.tvAmount.text="Amount: "+budgetInfoResponse.amount.toString()
+            binding.tvNote.text="Note: "+budgetInfoResponse.note.toString()
+            binding.tvDate.text="Date: "+budgetInfoResponse.date.toString()
+            binding.tvIDWallet.text="ID ví: "+budgetInfoResponse.walletIdWallet.toString()
             itemView.setOnClickListener{
                 listener?.let {
-                    it(budgetInfoRespone)
+                    it(budgetInfoResponse)
                 }
             }
         }

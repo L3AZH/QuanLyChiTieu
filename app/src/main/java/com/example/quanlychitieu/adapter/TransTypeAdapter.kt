@@ -46,7 +46,7 @@ class TransTypeAdapter(val context: Context, val listTransType: List<TransType>)
             viewHolder = view.tag as TransTypeAdapter.TransTypeViewHolder
         }
         viewHolder.itemIdTrans.text=listTransType[position].idTransType.toString()
-        viewHolder.itemTypeTrans.text=listTransType[position].type
+        viewHolder.itemTypeTrans.text=listTransType[position].categoryName
         return view
 
     }

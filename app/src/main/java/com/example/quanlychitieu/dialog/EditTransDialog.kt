@@ -64,11 +64,11 @@ class EditTransDialog (val listTransType: List<TransType>?, val listWalletType:L
         binding.transTypeSpinner.adapter=transTypeAdapter
         val position=transTypeAdapter.getPositionFromID(transInfoResponse.transType_id)
         binding.transTypeSpinner.setSelection(position)
+        binding.transTypeSpinner.isEnabled=false
 
         binding.edtEditAmount.setText(transInfoResponse.amount.toString(),TextView.BufferType.EDITABLE)
 
         binding.edtDate.setText(transInfoResponse.date.toString())
-        binding.edtDate.isEnabled=false
 
         binding.edtEditNote.setText(transInfoResponse.note)
     }

@@ -53,18 +53,19 @@ class EditBudgetDialog(val budgetInfoResponse: BudgetInfoResponse) :DialogFragme
 
     fun setButton(){
         var c=Calendar.getInstance()
-        val year=budgetInfoResponse.date.date
+        val year=budgetInfoResponse.date.year+1900
         val month=budgetInfoResponse.date.month
-        val day=budgetInfoResponse.date.year
-        c.set(budgetInfoResponse.date.year,budgetInfoResponse.date.month,budgetInfoResponse.date.date)
+        val day=budgetInfoResponse.date.date
+        c.set(budgetInfoResponse.date.year+1900,budgetInfoResponse.date.month,budgetInfoResponse.date.date)
 
-        binding.btnPickDate.setOnClickListener{
+        binding.btnPickDate.setOnClickListener {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                val datePickerDialog= DatePickerDialog(requireContext(),
+                val datePickerDialog = DatePickerDialog(requireContext(),
                     DatePickerDialog.OnDateSetListener { view, year, month, day ->
-                        binding.tvDate.setText(""+year+"/"+(month+1)+"/"+day)
-                        c.set(year,month,day)
-                    },year,month,day)
+                        binding.tvDate.setText("" + year + "/" + (month + 1) + "/" + day)
+                        c.set(year, month, day)
+                    }, year, month, day
+                )
                 datePickerDialog.show()
             }
         }
@@ -77,6 +78,7 @@ class EditBudgetDialog(val budgetInfoResponse: BudgetInfoResponse) :DialogFragme
                 var note=binding.edtEditNote.text.toString().trim()
                 if(checkField(amount,c)){
                     var updateBudget= UpdateBudgetRequest(amount.toDouble(),note,java.sql.Date(c.timeInMillis))
+                    println(updateBudget)
                     val result=viewModel.updateBudget(token!!,budgetInfoResponse.idBudget,updateBudget).await()
                     if(result[0].equals("200")){
                         viewModel.getAllBudget(token,budgetInfoResponse.walletIdWallet.toString())
