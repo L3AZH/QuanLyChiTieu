@@ -219,7 +219,7 @@ class HomeViewModel(val repository: Repository):ViewModel() {
         val result=repository.createBudget(token,createBudgetRequest)
         if(result.isSuccessful){
             val response = result.body()!!
-            arrayOf(response.code.toString(),response.data.message)
+            arrayOf(response.code.toString(),response.data.message, response.data.newBudgetId.toString())
         }
         else{
             val gson = Gson()
@@ -227,13 +227,24 @@ class HomeViewModel(val repository: Repository):ViewModel() {
                 result.errorBody()!!.string(),
                 CreateBudgetSuccessResponse::class.java
             )
-            arrayOf(createBudgetInfoResponse.code.toString(),createBudgetInfoResponse.data.message)
+            arrayOf(createBudgetInfoResponse.code.toString(),
+                createBudgetInfoResponse.data.message)
         }
     }
 
     fun createBudgetRequestCode(budgetRequestCodeIntent: BudgetRequestCodeIntent) = CoroutineScope(Dispatchers.Default).launch{
         repository.insertBugetRequestCode(budgetRequestCodeIntent)
     }
+
+    fun deleteBudgetRequestCode(budgetRequestCodeIntent: BudgetRequestCodeIntent) = CoroutineScope(Dispatchers.Default).launch{
+        repository.deleteBugetRequestCode(budgetRequestCodeIntent)
+    }
+
+    fun getBudgetRequestCodeWithIdBudget(idBudget: String):BudgetRequestCodeIntent{
+        return repository.getBugetRequestCodeIntent(idBudget);
+    }
+
+
 
     fun updateBudget(token:String,idBudget:Int, updateBudgetRequest: UpdateBudgetRequest):Deferred<Array<String>> = CoroutineScope(Dispatchers.Default).async{
         val result=repository.updateBudget(token,idBudget,updateBudgetRequest)

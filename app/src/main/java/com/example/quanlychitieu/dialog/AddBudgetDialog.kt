@@ -142,6 +142,7 @@ class AddBudgetDialog (val idWallet:String): DialogFragment() {
                         viewModel.createBudgetRequestCode(
                             BudgetRequestCodeIntent(
                                 0,
+                                result[2],
                                 budgetRequest.note,
                                 budgetRequest.amount.toString(),
                                 "00:00",

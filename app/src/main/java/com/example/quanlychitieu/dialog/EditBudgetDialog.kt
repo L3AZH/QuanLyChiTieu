@@ -1,10 +1,12 @@
 package com.example.quanlychitieu.dialog
 
-import android.app.AlertDialog
-import android.app.DatePickerDialog
-import android.app.Dialog
+import android.app.*
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.text.format.DateFormat
+import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -13,8 +15,11 @@ import com.example.quanlychitieu.api.BudgetInfoResponse
 import com.example.quanlychitieu.api.UpdateBudgetRequest
 import com.example.quanlychitieu.api.UpdateTransactionRequest
 import com.example.quanlychitieu.databinding.DialogSuaBudgetBinding
+import com.example.quanlychitieu.receiver.AlertReceiver
 import com.example.quanlychitieu.ui.Home.HomeActivity
 import com.example.quanlychitieu.ui.Home.HomeViewModel
+import com.example.quanlychitieu.util.Constant
+import com.example.quanlychitieu.util.RandomIntUtil
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -82,6 +87,57 @@ class EditBudgetDialog(val budgetInfoResponse: BudgetInfoResponse) :DialogFragme
                     val result=viewModel.updateBudget(token!!,budgetInfoResponse.idBudget,updateBudget).await()
                     if(result[0].equals("200")){
                         viewModel.getAllBudget(token,budgetInfoResponse.walletIdWallet.toString())
+                        /**
+                        Tuan anh them vao phan notification sau khi add thanh cong budget
+                         */
+
+                        val budgetRequestCodeIntent = viewModel.getBudgetRequestCodeWithIdBudget(binding.edtEditIDBudget.text.toString());
+                        val alarmManagerDel = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                        val intentDel = Intent(context, AlertReceiver::class.java)
+                        intentDel.action = budgetRequestCodeIntent.actionIntentType
+                        val pendingIntentDel= PendingIntent.getBroadcast(context,budgetRequestCodeIntent.requestCodePendingIntent,intentDel,
+                            PendingIntent.FLAG_UPDATE_CURRENT)
+                        alarmManagerDel.cancel(pendingIntentDel)
+
+
+                        val currentDay =
+                            DateFormat.format("dd/MM/yyyy HH:mm", Calendar.getInstance().time).toString()
+                        val setDay = DateFormat.format("dd/MM/yyyy HH:mm", updateBudget.date.time).toString()
+                        Log.i("MyTime", "currentDay " + currentDay + " -------Set Day: " + setDay)
+                        val diff = viewModel.caculateDiffTime(currentDay, setDay)
+                        val alarmManager =
+                            requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                        val intent = Intent(context, AlertReceiver::class.java)
+                        intent.action = Constant.ACTION_SET_EXACT_ALARM // set daily default
+                        intent.putExtra(Constant.EXTRA_TITLE, "Note: "+updateBudget.note + "\nDay:"+ setDay)
+                        intent.putExtra(
+                            Constant.EXTRA_DECRIPTION,
+                            updateBudget.amount.toString()
+                        )
+                        val getRequestCodePendingIntent = RandomIntUtil.getRandom()
+                        intent.putExtra(Constant.EXTRA_REQUESTCODE_PENDING, getRequestCodePendingIntent)
+                        val pendingIntent = PendingIntent.getBroadcast(
+                            context,
+                            getRequestCodePendingIntent,
+                            intent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                        )
+                        alarmManager?.let {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                // sử dụng dozen mode, google android doc => báo khi đã bật tiết kiệm pin
+                                it.setExactAndAllowWhileIdle(
+                                    AlarmManager.RTC_WAKEUP,
+                                    Calendar.getInstance().timeInMillis + diff!!,
+                                    pendingIntent
+                                )
+                            } else {
+                                alarmManager.setExact(
+                                    AlarmManager.RTC_WAKEUP,
+                                    Calendar.getInstance().timeInMillis + diff!!,
+                                    pendingIntent
+                                )
+                            }
+                        }
                         dialog?.cancel()
                     }
                     else{
@@ -98,6 +154,20 @@ class EditBudgetDialog(val budgetInfoResponse: BudgetInfoResponse) :DialogFragme
                 var id=budgetInfoResponse.idBudget
                 var idWallet=budgetInfoResponse.walletIdWallet.toString()
                 val result=viewModel.deleteBudget(token!!,id).await()
+                /**
+                 * Tuan anh part
+                 */
+                val budgetRequestCodeIntent = viewModel.getBudgetRequestCodeWithIdBudget(binding.edtEditIDBudget.text.toString())
+                val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+                val intent = Intent(context, AlertReceiver::class.java)
+                intent.action = budgetRequestCodeIntent.actionIntentType
+                val pendingIntent = PendingIntent.getBroadcast(context,budgetRequestCodeIntent.requestCodePendingIntent,intent,
+                    PendingIntent.FLAG_UPDATE_CURRENT)
+                alarmManager.cancel(pendingIntent)
+                viewModel.deleteBudgetRequestCode(budgetRequestCodeIntent)
+                /**
+                 *
+                 */
                 if(result[0].equals("200")){
                     viewModel.getAllBudget(token,idWallet)
                     dialog?.cancel()

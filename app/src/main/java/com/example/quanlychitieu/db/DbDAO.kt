@@ -24,6 +24,6 @@ interface DbDAO {
     suspend fun deteleBudgetRequestCode(budgetRequestCode: BudgetRequestCodeIntent)
     @Update
     suspend fun updateBudgetRequestCode(budgetRequestCode: BudgetRequestCodeIntent)
-    @Query("select * from BudgetRequestCodeTable")
-    fun getAllBudgetRequestCode(): LiveData<List<BudgetRequestCodeIntent>>
+    @Query("select * from BudgetRequestCodeTable where idBudget = :idBudgetIn")
+    fun getBudgetRequestCodeIntent(idBudgetIn:String): BudgetRequestCodeIntent
 }

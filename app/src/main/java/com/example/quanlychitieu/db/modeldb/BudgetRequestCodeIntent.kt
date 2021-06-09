@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
 data class BudgetRequestCodeIntent(
     @PrimaryKey(autoGenerate = true)
     val id:Int,
+    val idBudget:String,
     val title:String,
     val description:String,
     val time:String,

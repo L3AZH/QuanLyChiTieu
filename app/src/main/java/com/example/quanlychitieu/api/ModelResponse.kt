@@ -393,8 +393,11 @@ data class CreateBudgetSuccessResponse(
 
 data class CreateBudgetDataSuccessResponse(
     @SerializedName("message")
-    val message:String
+    val message:String,
+    @SerializedName("newBudgetId")
+    val newBudgetId:Int
 )
+
 
 data class UpdateBudgetSuccessResponse(
     @SerializedName("code")

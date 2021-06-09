@@ -74,8 +74,8 @@ class Repository(val dbDAO: DbDAO) {
     suspend fun updateBugetRequestCode(budgetRequestCode: BudgetRequestCodeIntent){
         return dbDAO.updateBudgetRequestCode(budgetRequestCode)
     }
-    fun getAllBugetRequestCode(): LiveData<List<BudgetRequestCodeIntent>> {
-        return dbDAO.getAllBudgetRequestCode()
+    fun getBugetRequestCodeIntent(idBudget:String): BudgetRequestCodeIntent {
+        return dbDAO.getBudgetRequestCodeIntent(idBudget);
     }
 
 }
