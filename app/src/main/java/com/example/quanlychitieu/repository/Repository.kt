@@ -5,6 +5,7 @@ import com.example.quanlychitieu.api.*
 import com.example.quanlychitieu.db.DbDAO
 import com.example.quanlychitieu.db.modeldb.BudgetRequestCodeIntent
 import com.example.quanlychitieu.db.modeldb.TransType
+import com.example.quanlychitieu.db.modeldb.Transaction
 import com.example.quanlychitieu.db.modeldb.WalletType
 
 class Repository(val dbDAO: DbDAO) {
@@ -21,6 +22,7 @@ class Repository(val dbDAO: DbDAO) {
     suspend fun getListWalletType(token: String) = RetrofitInstance.api.getListWalletType(token)
     suspend fun createNewWallet(token: String,walletNew:CreateWalletRequest) = RetrofitInstance.api.createNewWallet(token,walletNew)
     suspend fun getAllTransactions(token:String,type:String)=RetrofitInstance.api.getAllTransaction(token,type)
+    suspend fun getAllTransactionsByUser(token:String)=RetrofitInstance.api.getAllTransactionByUser(token)
     suspend fun updateTransaction(token:String,idTrans: Int,updateTrans:UpdateTransactionRequest)=RetrofitInstance.api.updateTransaction(token,idTrans,updateTrans)
     suspend fun deleteTransaction(token:String,idTrans: Int)= RetrofitInstance.api.deleteTransaction(token,idTrans)
     suspend fun getListTransTypeFromServer(token: String) = RetrofitInstance.api.getAllTransType(token)
@@ -35,6 +37,7 @@ class Repository(val dbDAO: DbDAO) {
     /**
      * lay data trong db
      */
+
     suspend fun getListWalletTypeFromDatabase():List<WalletType>{
         return dbDAO.getListWalletTypeFromDatabase()
     }
@@ -60,7 +63,6 @@ class Repository(val dbDAO: DbDAO) {
         }
         return true
     }
-
     suspend fun getListTransTypeFromDB():List<TransType>{
         return dbDAO.getListTransTypeFromDatabase()
     }

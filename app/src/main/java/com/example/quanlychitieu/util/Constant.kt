@@ -1,7 +1,7 @@
 package com.example.quanlychitieu.util
 
 object Constant {
-    val BASE_URL = "http://192.168.1.11:5000/api/"
+    val BASE_URL = "http:/172.16.1.27:5000/api/"
 
     const val EXTRA_REQUESTCODE_PENDING="EXTRA_REQUESTCODE_PENDING"
     const val EXTRA_TITLE = "EXTRA_TITLE"

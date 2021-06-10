@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.quanlychitieu.db.modeldb.BudgetRequestCodeIntent
 import com.example.quanlychitieu.db.modeldb.TransType
+import com.example.quanlychitieu.db.modeldb.Transaction
 import com.example.quanlychitieu.db.modeldb.WalletType
 
 @Dao

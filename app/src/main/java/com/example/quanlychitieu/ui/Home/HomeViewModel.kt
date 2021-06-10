@@ -1,5 +1,6 @@
 package com.example.quanlychitieu.ui.Home
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.quanlychitieu.api.*
 import com.example.quanlychitieu.db.modeldb.BudgetRequestCodeIntent
 import com.example.quanlychitieu.db.modeldb.TransType
+import com.example.quanlychitieu.db.modeldb.Transaction
 import com.example.quanlychitieu.db.modeldb.WalletType
 import com.example.quanlychitieu.repository.Repository
 import com.google.gson.Gson
@@ -21,7 +23,7 @@ class HomeViewModel(val repository: Repository):ViewModel() {
     var listWallet:MutableLiveData<List<WalletInfo>> = MutableLiveData()
     var allTrans: MutableLiveData<List<TransInfoResponse>> = MutableLiveData()
     var listBudget:MutableLiveData<List<BudgetInfoResponse>> = MutableLiveData()
-
+    var allTransByUser: MutableLiveData<List<TransInfoResponse>> = MutableLiveData()
 
     fun getInfoUser(token:String):Deferred<GetInfoCurrentUserResponseSuccess?> = CoroutineScope(Dispatchers.Default).async{
         val repsonse = repository.getInfoCurrentUser(token)
@@ -59,6 +61,7 @@ class HomeViewModel(val repository: Repository):ViewModel() {
             listWallet.postValue(listResult)
         }
     }
+
 
     fun loadingListWalletTypeFromSvToDb(token: String):Deferred<Boolean> = CoroutineScope(Dispatchers.Default).async{
         val response = repository.getListWalletType(token)
@@ -125,6 +128,23 @@ class HomeViewModel(val repository: Repository):ViewModel() {
     /**
      * function cho ThongKeFragment
      */
+    fun getAllTransactionByUser(token: String): Deferred<List<TransInfoResponse>?> =  CoroutineScope(Dispatchers.Default).async {
+        val response= repository.getAllTransactionsByUser(token)
+        if(response.isSuccessful()){
+            response.body()!!.data.result
+        }
+        else {
+            null
+        }
+    }
+
+    fun setListTransactionByUser(token: String) = CoroutineScope(Dispatchers.Default).launch{
+
+        val listResult = getAllTransactionByUser(token).await()
+        listResult?.let {
+            allTransByUser.postValue(listResult)
+        }
+    }
 
     /**
      * function cho GiaoDichFragment

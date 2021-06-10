@@ -2,6 +2,7 @@ package com.example.quanlychitieu.db.modeldb
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 import java.util.*
 
 @Entity(tableName = "Transaction")
@@ -12,4 +13,6 @@ data class Transaction (
     val amount:Double,
     val note:String,
     val date: Date
-)
+): Serializable {
+
+}

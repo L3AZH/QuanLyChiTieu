@@ -35,6 +35,11 @@ interface ServerAPI {
         @Path("type")type:String
     ):Response<GetAllTransactionSuccess>
 
+    @GET("account/wallet/transaction/get-all-transaction")
+    suspend fun getAllTransactionByUser(
+        @Header("Authorization") token:String
+    ):Response<GetAllTransactionSuccess>
+
     @GET("transtype/get-all-transtype")
     suspend fun getAllTransType(
         @Header("Authorization")token:String
