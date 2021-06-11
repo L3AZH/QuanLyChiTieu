@@ -41,6 +41,7 @@ class HomeViewModel(val repository: Repository):ViewModel() {
         }
     }
 
+
     /**
      * function cho ViFragment
      */
