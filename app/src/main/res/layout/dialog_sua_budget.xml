@@ -13,7 +13,7 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:text="ID budget: "
+                android:text="ID ke hoach: "
                 android:layout_marginLeft="10dp"/>
             <EditText
                 android:id="@+id/edtEditIDBudget"

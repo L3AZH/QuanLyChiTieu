@@ -71,47 +71,57 @@ class HomeFragment : Fragment() {
     fun setUpChart(){
         var c= Calendar.getInstance()
         val month=c.get(Calendar.MONTH)
+        val year =c.get(Calendar.YEAR)
         var amountThuByMonth:Double
         var amountChiByMonth:Double
         val sharePreference =
             requireActivity().getSharedPreferences("com.example.quanlychitieu", Context.MODE_PRIVATE)
         val token = sharePreference.getString("accountToken", "null")
         val entries = ArrayList<BarEntry>()
-        viewModel.allTransByUser.observe(viewLifecycleOwner, Observer { CoroutineScope(Dispatchers.Main).launch {
-            amountThuByMonth=0.0
-            amountChiByMonth=0.0
-            for (i in 0 until viewModel.allTransByUser.value?.size!!){
-                if(viewModel.allTransByUser.value!!.get(i).type.equals("Thu") && viewModel.allTransByUser.value!!.get(i).date.month==month){
-                    amountThuByMonth+=viewModel.allTransByUser.value!!.get(i).amount
-                }
-                if(viewModel.allTransByUser.value!!.get(i).type.equals("Chi") && viewModel.allTransByUser.value!!.get(i).date.month==month){
-                    amountChiByMonth+=viewModel.allTransByUser.value!!.get(i).amount
-                }
-            }
-            binding.tvThuHome.text = DecimalFormat("##.##").format(amountThuByMonth).toString()
-            binding.tvChiHome.text = DecimalFormat("##.##").format(amountChiByMonth).toString()
-            binding.tvKqHome.text = DecimalFormat("##.##").format(amountThuByMonth-amountChiByMonth).toString()
-            print(amountThuByMonth)
-            print(amountChiByMonth)
-
-        } })
-
+        entries.add(BarEntry(1f, 2f))
+        entries.add(BarEntry(2f, 1f))
         entries.add(BarEntry(3f, 0f))
-        entries.add(BarEntry(1f, binding.tvThuHome.text.toString().toFloat()))
-        entries.add(BarEntry(2f, binding.tvChiHome.text.toString().toFloat()))
-        println(entries)
         val barDataSet = BarDataSet(entries, "")
-
         val data = BarData(barDataSet)
-        println(data)
         binding.barChart.data = data // set the data and list of lables into chart
-        viewModel.setListTransactionByUser(token!!)
         binding.barChart.getXAxis().setDrawGridLines(false); // disable grid lines for the XAxis
         binding.barChart.getAxisLeft().setDrawGridLines(false); // disable grid lines for the left YAxis
         binding.barChart.getAxisRight().setDrawGridLines(false); // disable grid lines for the right YAxis
         binding.barChart.xAxis.isEnabled=false
         binding.barChart.axisRight.isEnabled=false
         binding.barChart.description.isEnabled=false
+        viewModel.allTransByUser.observe(viewLifecycleOwner, Observer { CoroutineScope(Dispatchers.Main).launch {
+            amountThuByMonth=0.0
+            amountChiByMonth=0.0
+            for (i in 0 until viewModel.allTransByUser.value?.size!!){
+                if(viewModel.allTransByUser.value!!.get(i).type.equals("Thu")
+                    && viewModel.allTransByUser.value!!.get(i).date.month==month
+                        && fixYear(viewModel.allTransByUser.value!!.get(i).date.year)==year){
+                    amountThuByMonth+=viewModel.allTransByUser.value!!.get(i).amount
+                    Log.i(TAG, "checkyear: ${fixYear(viewModel.allTransByUser.value!!.get(i).date.year)}")
+                }
+                if(viewModel.allTransByUser.value!!.get(i).type.equals("Chi")
+                    && viewModel.allTransByUser.value!!.get(i).date.month==month
+                        && fixYear(viewModel.allTransByUser.value!!.get(i).date.year)==year){
+                    amountChiByMonth+=viewModel.allTransByUser.value!!.get(i).amount
+                }
+            }
+            binding.tvThuHome.text = DecimalFormat("##.##").format(amountThuByMonth).toString()
+            binding.tvChiHome.text = DecimalFormat("##.##").format(amountChiByMonth).toString()
+            binding.tvKqHome.text = DecimalFormat("##.##").format(amountThuByMonth-amountChiByMonth).toString()
+            entries.add(BarEntry(1f, binding.tvThuHome.text.toString().toFloat()))
+            entries.add(BarEntry(2f, binding.tvChiHome.text.toString().toFloat()))
+            entries.add(BarEntry(3f, 0f))
+            val barDataSet = BarDataSet(entries, "")
+            val data = BarData(barDataSet)
+            binding.barChart.data = data // set the data and list of lables into chart
+
+        } })
+        viewModel.setListTransactionByUser(token!!)
+
+    }
+    fun fixYear(year: Int): Int {
+        return (1900+year)
     }
     fun setOnClickInfoBtn(){
         binding.infoImgViewBtn.setOnClickListener {
