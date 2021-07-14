@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.renderscript.ScriptGroup
 import android.transition.AutoTransition
 import android.transition.TransitionManager
 import android.util.Log
@@ -24,10 +25,10 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.utils.ColorTemplate
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.google.gson.internal.bind.TypeAdapters.URL
+import kotlinx.coroutines.*
+import org.json.JSONObject
+import java.net.URL
 import java.text.DecimalFormat
 import java.time.LocalDate
 import java.util.*
@@ -37,7 +38,6 @@ class HomeFragment : Fragment() {
 
     lateinit var binding:FragmentHomeBinding
     lateinit var viewModel: HomeViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,6 +53,7 @@ class HomeFragment : Fragment() {
         setUpInfoUser()
         setOnClickInfoBtn()
         setUpChart()
+        setUpCurrencyConverter()
     }
     fun setUpInfoUser(){
         val sharePreference =
@@ -68,6 +69,39 @@ class HomeFragment : Fragment() {
         })
         viewModel.setInfoUser(token!!)
     }
+
+    fun setUpCurrencyConverter(){
+        getCurConvertApi("USD")
+        getCurConvertApi("CNY")
+        getCurConvertApi("EUR")
+        getCurConvertApi("GBP")
+        getCurConvertApi("JPY")
+    }
+
+    fun getCurConvertApi(code:String){
+        var API = "https://free.currconv.com/api/v7/convert?q=${code}_VND&compact=ultra&apiKey=53c19ace609935840f92"
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val apiResult = URL(API).readText()
+                val jsonObject = JSONObject(apiResult)
+                var result = jsonObject.getString("${code}_VND").toDouble()
+                withContext(Dispatchers.Main) {
+                    when(code){
+                        "USD" -> binding.tvUSDtoVND.setText("1 USD ≈ ${result.format(2)} VND")
+                        "CNY" -> binding.tvCNYtoVND.setText("1 CNY ≈ ${result.format(2)} VND")
+                        "EUR" -> binding.tvEURtoVND.setText("1 EUR ≈ ${result.format(2)} VND")
+                        "GBP" -> binding.tvGBPtoVND.setText("1 GBP ≈ ${result.format(2)} VND")
+                        "JPY" -> binding.tvJPYtoVND.setText("1 JPY ≈ ${result.format(2)} VND")
+                    }
+
+                }
+            } catch (e: Exception) {
+                Log.e("Main", "$e")
+            }
+        }
+    }
+    fun Double.format(digits: Int) = "%.${digits}f".format(this)
+
     fun setUpChart(){
         var c= Calendar.getInstance()
         val month=c.get(Calendar.MONTH)

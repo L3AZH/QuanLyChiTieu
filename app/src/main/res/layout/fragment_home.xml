@@ -253,16 +253,17 @@
                                 android:textSize="25dp"
                                 />
                         </LinearLayout>
-                        <!--<LinearLayout
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right|center">
                             <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/btn_traCuu"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@color/white"
                                 android:text="Tra cứu >"/>
-                        </LinearLayout>-->
+                        </LinearLayout>
                     </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -294,6 +295,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center|left">
                                 <TextView
+                                    android:id="@+id/tv_USDtoVND"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="1 USD ≈ 23.256 đ"
@@ -310,7 +312,7 @@
 
                             </LinearLayout>
                         </LinearLayout>
-                        <LinearLayout
+                        <!--<LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="horizontal">
@@ -349,7 +351,7 @@
                                     android:background="@drawable/vn_flag"/>
 
                             </LinearLayout>
-                        </LinearLayout>
+                        </LinearLayout>-->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -375,6 +377,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center|left">
                                 <TextView
+                                    android:id="@+id/tv_CNYtoVND"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="1 CNY ≈ 3.614 đ"
@@ -415,6 +418,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center|left">
                                 <TextView
+                                    android:id="@+id/tv_EURtoVND"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="1 EUR ≈ 28.304 đ"
@@ -455,6 +459,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center|left">
                                 <TextView
+                                    android:id="@+id/tv_GBPtoVND"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="1 GBP ≈ 32.807 đ"
@@ -495,6 +500,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center|left">
                                 <TextView
+                                    android:id="@+id/tv_JPYtoVND"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="1 JPY ≈ 213 đ"
