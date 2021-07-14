@@ -118,12 +118,6 @@ class HomeFragment : Fragment() {
         val barDataSet = BarDataSet(entries, "")
         val data = BarData(barDataSet)
         binding.barChart.data = data // set the data and list of lables into chart
-        binding.barChart.getXAxis().setDrawGridLines(false); // disable grid lines for the XAxis
-        binding.barChart.getAxisLeft().setDrawGridLines(false); // disable grid lines for the left YAxis
-        binding.barChart.getAxisRight().setDrawGridLines(false); // disable grid lines for the right YAxis
-        binding.barChart.xAxis.isEnabled=false
-        binding.barChart.axisRight.isEnabled=false
-        binding.barChart.description.isEnabled=false
         viewModel.allTransByUser.observe(viewLifecycleOwner, Observer { CoroutineScope(Dispatchers.Main).launch {
             amountThuByMonth=0.0
             amountChiByMonth=0.0
@@ -152,7 +146,33 @@ class HomeFragment : Fragment() {
 
         } })
         viewModel.setListTransactionByUser(token!!)
-
+        /*amountThuByMonth=0.0
+        amountChiByMonth=0.0
+        for (i in 0 until viewModel.allTransByUser.value?.size!!){
+            if(viewModel.allTransByUser.value!!.get(i).type.equals("Thu")
+                && viewModel.allTransByUser.value!!.get(i).date.month==month
+                && fixYear(viewModel.allTransByUser.value!!.get(i).date.year)==year){
+                amountThuByMonth+=viewModel.allTransByUser.value!!.get(i).amount
+                Log.i(TAG, "checkyear: ${fixYear(viewModel.allTransByUser.value!!.get(i).date.year)}")
+            }
+            if(viewModel.allTransByUser.value!!.get(i).type.equals("Chi")
+                && viewModel.allTransByUser.value!!.get(i).date.month==month
+                && fixYear(viewModel.allTransByUser.value!!.get(i).date.year)==year){
+                amountChiByMonth+=viewModel.allTransByUser.value!!.get(i).amount
+            }
+        }
+        entries.add(BarEntry(1f, amountThuByMonth.toFloat()))
+        entries.add(BarEntry(2f, amountChiByMonth.toFloat()))
+        entries.add(BarEntry(3f, 0f))
+        val barDataSet = BarDataSet(entries, "")
+        val data = BarData(barDataSet)
+        binding.barChart.data = data*/
+        binding.barChart.getXAxis().setDrawGridLines(false); // disable grid lines for the XAxis
+        binding.barChart.getAxisLeft().setDrawGridLines(false); // disable grid lines for the left YAxis
+        binding.barChart.getAxisRight().setDrawGridLines(false); // disable grid lines for the right YAxis
+        binding.barChart.xAxis.isEnabled=false
+        binding.barChart.axisRight.isEnabled=false
+        binding.barChart.description.isEnabled=false
     }
     fun fixYear(year: Int): Int {
         return (1900+year)
